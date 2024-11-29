@@ -6,3 +6,4 @@ resources:
   - cloudflare.yaml
   - linkding-container-env-secret.yaml
   - cf-tunnel-k3s-sops.yaml
+  - ingress.yaml
