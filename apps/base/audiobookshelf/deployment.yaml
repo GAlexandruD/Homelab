@@ -1,0 +1,68 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: audiobookshelf
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: audiobookshelf
+  template:
+    metadata:
+      labels:
+        app: audiobookshelf
+    # spec:
+    #   securityContext:
+    #     fsGroup: 33 # www-data group ID
+    #     runAsUser: 33 # www-data user ID
+    #     runAsGroup: 33 # www-data group ID
+
+      containers:
+        - name: audiobookshelf
+          image: ghcr.io/advplyr/audiobookshelf:2.17.0
+          ports:
+            - containerPort: 80
+
+          envFrom:
+            #- configMapRef:
+            #    name: linkding-configmap
+            - secretRef:
+                name: audiobookshelf-container-env
+
+          securityContext:
+            allowPrivilegeEscalation: false
+
+          volumeMounts:
+            - name: audiobookshelf-config
+              mountPath: /config
+
+            - name: audiobookshelf-metadata
+              mountPath: /metadata
+
+            - name: audiobookshelf-audiobooks
+              mountPath: /audiobooks
+
+            - name: audiobookshelf-podcasts
+              mountPath: /podcasts
+      
+      volumes:
+        - name: audiobookshelf-config
+          persistentVolumeClaim:
+            claimName: audiobookshelf-config-pvc
+           
+        - name: audiobookshelf-metadata
+          persistentVolumeClaim:
+            claimName: audiobookshelf-metadata-pvc
+
+        - name: audiobookshelf-audiobooks
+          persistentVolumeClaim:
+            claimName: audiobookshelf-audiobooks-pvc
+
+        - name: audiobookshelf-podcasts
+          persistentVolumeClaim:
+            claimName: audiobookshelf-podcasts-pvc
+
+
+
+
+

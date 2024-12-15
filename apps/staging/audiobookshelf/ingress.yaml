@@ -1,0 +1,17 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: audiobookshelf
+spec:
+  ingressClassName: traefik
+  rules:
+    - host: notset.alexandrud.com    # Not used here, because cloudflare tunnel takes care of this.  
+      http:
+        paths:
+          - backend:
+              service:
+                name: audiobookshelf
+                port:
+                  number: 3005   # Use the Service port, not the Pod's port
+            path: /
+            pathType: Prefix
