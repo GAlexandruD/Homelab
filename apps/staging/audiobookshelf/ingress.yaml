@@ -5,7 +5,7 @@ metadata:
 spec:
   ingressClassName: traefik
   rules:
-    - host: notset.alexandrud.com    # Not used here, because cloudflare tunnel takes care of this.  
+    - host: stg-abs.alexandrud.com    # Not used here, because cloudflare tunnel takes care of this.  
       http:
         paths:
           - backend:
