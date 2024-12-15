@@ -46,7 +46,7 @@ spec:
       volumes:
       - name: creds
         secret:
-          secretName: cf-tunnel-k3s-sops
+          secretName: cf-tunnel-stg-abs
 
       # Create a config.yaml file from the ConfigMap below.
       - name: config
@@ -68,7 +68,7 @@ data:
   config.yaml: |
     # Name of the tunnel you want to run
     
-    tunnel: tunnel-dragos-k3s
+    tunnel: tunnel-stage-audiobookshelf
 
     credentials-file: /etc/cloudflared/creds/credentials.json
 
