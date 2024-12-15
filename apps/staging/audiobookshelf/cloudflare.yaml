@@ -1,7 +1,7 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: cloudflared
+  name: cloudflared-audiobookshelf
 spec:
   selector:
     matchLabels:
@@ -78,7 +78,7 @@ data:
 
     ingress:
     - hostname: stg-abs.alexandrud.com
-      service: http://audiobookshelf:9090
+      service: http://audiobookshelf:3005
 
     # This rule sends traffic to the built-in hello-world HTTP server. This can help debug connectivity
     # issues. If hello.example.com resolves and tunnel.example.com does not, then the problem is
