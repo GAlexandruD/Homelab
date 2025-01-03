@@ -1,0 +1,48 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: nextjs-on-docker
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: nextjs-on-docker
+  template:
+    metadata:
+      labels:
+        app: nextjs-on-docker
+    spec:
+      securityContext:
+        fsGroup: 1001
+        runAsUser: 1001 #  nextjs user ID
+        runAsGroup: 1001 # nodejs group ID
+
+      containers:
+        - name: nextjs-on-docker
+          image: galexandrud/nextjs-on-docker:0.0.1
+          ports:
+            - containerPort: 3000
+
+          envFrom:
+            #- configMapRef:
+            #    name: linkding-configmap
+            #- secretRef:
+            #    name: audiobookshelf-container-env
+
+          securityContext:
+            allowPrivilegeEscalation: false
+
+          volumeMounts:
+            # Don't need it as I don't save files.
+            - name: nextjs-on-docker-app
+              mountPath: /app
+      
+      volumes:
+        - name: nextjs-on-docker-app
+          persistentVolumeClaim:
+            claimName: nextjs-on-docker-app-pvc
+
+
+
+
+
