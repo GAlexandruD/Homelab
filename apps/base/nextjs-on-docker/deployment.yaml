@@ -19,7 +19,7 @@ spec:
 
       containers:
         - name: nextjs-on-docker
-          image: docker.io/galexandrud/nextjs-on-docker:0.0.1
+          image: docker.io/galexandrud/nextjs-on-docker:0.0.2
           ports:
             - containerPort: 3000
 
