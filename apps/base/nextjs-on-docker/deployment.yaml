@@ -19,7 +19,7 @@ spec:
 
       containers:
         - name: nextjs-on-docker
-          image: docker.io/galexandrud/nextjs-on-docker:0.0.2
+          image: docker.io/galexandrud/nextjs-on-docker:0.0.3
           ports:
             - containerPort: 3000
 
@@ -36,13 +36,8 @@ spec:
             # Don't need it as I don't save files.
             - name: nextjs-on-docker-app
               mountPath: /app
-      
+
       volumes:
         - name: nextjs-on-docker-app
           persistentVolumeClaim:
             claimName: nextjs-on-docker-app-pvc
-
-
-
-
-
