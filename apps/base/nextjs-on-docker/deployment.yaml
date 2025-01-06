@@ -12,10 +12,10 @@ spec:
       labels:
         app: nextjs-on-docker
     spec:
-      # securityContext:
-      #   fsGroup: 1001
-      #   runAsUser: 1001 #  nextjs user ID
-      #   runAsGroup: 1001 # nodejs group ID
+      securityContext:
+        fsGroup: 1001
+        runAsUser: 1001 #  nextjs user ID
+        runAsGroup: 1001 # nodejs group ID
 
       containers:
         - name: nextjs-on-docker
@@ -35,7 +35,7 @@ spec:
           volumeMounts:
             # Don't need it as I don't save files.
             - name: nextjs-on-docker-app
-              mountPath: /app
+              mountPath: /appNOTUSED
 
       volumes:
         - name: nextjs-on-docker-app
