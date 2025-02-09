@@ -4,8 +4,8 @@ metadata:
   name: audiobookshelf
 spec:
   ports:
-    - port: 3005    # The port exposed by the Service
-      targetPort: 80   # The port inside the container
+    - port: 3005 # The port exposed by the Service
+      targetPort: 8080 # The port inside the container
   selector:
     app: audiobookshelf
-  type: ClusterIP 
+  type: ClusterIP
