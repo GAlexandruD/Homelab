@@ -20,8 +20,11 @@ spec:
       containers:
         - name: audiobookshelf
           image: ghcr.io/advplyr/audiobookshelf:2.19.0
+          env:
+            - name: PORT
+              value: "8080" # Set the internal port to 8080 instead of 80.
           ports:
-            - containerPort: 80
+            - containerPort: 8080 # Expose the 8080 port.
 
           envFrom:
             #- configMapRef:
@@ -44,12 +47,12 @@ spec:
 
             - name: audiobookshelf-podcasts
               mountPath: /podcasts
-      
+
       volumes:
         - name: audiobookshelf-config
           persistentVolumeClaim:
             claimName: audiobookshelf-config-pvc
-           
+
         - name: audiobookshelf-metadata
           persistentVolumeClaim:
             claimName: audiobookshelf-metadata-pvc
@@ -61,8 +64,3 @@ spec:
         - name: audiobookshelf-podcasts
           persistentVolumeClaim:
             claimName: audiobookshelf-podcasts-pvc
-
-
-
-
-
