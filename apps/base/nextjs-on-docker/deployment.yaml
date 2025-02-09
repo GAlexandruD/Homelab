@@ -32,12 +32,12 @@ spec:
           securityContext:
             allowPrivilegeEscalation: false
 
-          volumeMounts:
-            # Don't need it as I don't save files.
-            - name: nextjs-on-docker-app
-              mountPath: /appNOTUSED
+          # volumeMounts:
+          #   # Don't need it as I don't save files.
+          #   - name: nextjs-on-docker-app
+          #     mountPath: /appNOTUSED
 
-      volumes:
-        - name: nextjs-on-docker-app
-          persistentVolumeClaim:
-            claimName: nextjs-on-docker-app-pvc
+      # volumes:
+      #   - name: nextjs-on-docker-app
+      #     persistentVolumeClaim:
+      #       claimName: nextjs-on-docker-app-pvc
