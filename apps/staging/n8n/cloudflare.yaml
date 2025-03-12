@@ -46,7 +46,7 @@ spec:
       volumes:
       - name: creds
         secret:
-          secretName: cf-tunnel-stage-n8n
+          secretName: cf-tunnel-stg-n8n
 
       # Create a config.yaml file from the ConfigMap below.
       - name: config
@@ -63,7 +63,7 @@ spec:
 apiVersion: v1
 kind: ConfigMap
 metadata:
-  name: cloudflared
+  name: n8n-cloudflared
 data:
   config.yaml: |
     # Name of the tunnel you want to run
