@@ -51,7 +51,7 @@ spec:
       # Create a config.yaml file from the ConfigMap below.
       - name: config
         configMap:
-          name: cloudflared
+          name: n8n-cloudflared
           items:
           - key: config.yaml
             path: config.yaml
