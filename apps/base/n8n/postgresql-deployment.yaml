@@ -12,6 +12,10 @@ spec:
       labels:
         app: postgresql
     spec:
+      securityContext:
+        fsGroup: 999 # postgres group ID
+        runAsUser: 999 # postgres user ID
+        runAsGroup: 999 # postgres group ID
       containers:
         - name: postgresql
           image: postgres:13
