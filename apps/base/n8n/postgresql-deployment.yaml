@@ -13,27 +13,27 @@ spec:
         app: postgresql
     spec:
       containers:
-      - name: postgresql
-        image: postgres:13
-        env:
-        - name: POSTGRES_DB
-          value: n8n
-        - name: POSTGRESQL_DATA_DIR
-          value: /var/lib/postgresql/data/nolostorfound/
-        - name: POSTGRES_USER
-          value: n8n
-        - name: POSTGRES_PASSWORD
-          valueFrom:
-            secretKeyRef:
-              name: postgresql-secret
-              key: password
-        ports:
-        - containerPort: 5432
-          name: postgresql
-        volumeMounts:
-        - name: postgresql-data
-          mountPath: /var/lib/postgresql/data
+        - name: postgresql
+          image: postgres:13
+          env:
+            - name: POSTGRES_DB
+              value: n8n
+            - name: PGDATA
+              value: /var/lib/postgresql/data/nolostorfound/
+            - name: POSTGRES_USER
+              value: n8n
+            - name: POSTGRES_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: postgresql-secret
+                  key: password
+          ports:
+            - containerPort: 5432
+              name: postgresql
+          volumeMounts:
+            - name: postgresql-data
+              mountPath: /var/lib/postgresql/data
       volumes:
-      - name: postgresql-data
-        persistentVolumeClaim:
-          claimName: postgresql-data-pvc
+        - name: postgresql-data
+          persistentVolumeClaim:
+            claimName: postgresql-data-pvc
