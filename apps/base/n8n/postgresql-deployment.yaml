@@ -18,6 +18,8 @@ spec:
         env:
         - name: POSTGRES_DB
           value: n8n
+        - name: POSTGRESQL_DATA_DIR
+          value: /var/lib/postgresql/data/nolostorfound/
         - name: POSTGRES_USER
           value: n8n
         - name: POSTGRES_PASSWORD
