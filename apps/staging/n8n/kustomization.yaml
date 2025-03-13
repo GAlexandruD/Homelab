@@ -8,3 +8,4 @@ resources:
   - cf-tunnel-stg-n8n.yaml
   - ingress.yaml
   - configmap.yaml
+  - postgresql-secret.yaml

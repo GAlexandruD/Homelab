@@ -28,7 +28,7 @@ spec:
             - configMapRef:
                 name: n8n-configmap
             - secretRef:
-                name: n8n-container-env
+                name: postgresql-secret
 
           securityContext:
             allowPrivilegeEscalation: false
