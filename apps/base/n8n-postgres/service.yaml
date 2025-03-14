@@ -1,0 +1,10 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: n8n-postgresql
+spec:
+  ports:
+    - port: 5678
+  selector:
+    app: n8n-postgresql
+  type: ClusterIP

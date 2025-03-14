@@ -5,3 +5,5 @@ resources:
   - deployment.yaml
   - storage.yaml
   - service.yaml
+  - postgresql-deployment.yaml
+  - postgresql-service.yaml

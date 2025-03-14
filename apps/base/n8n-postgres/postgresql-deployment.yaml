@@ -31,12 +31,18 @@ spec:
                 secretKeyRef:
                   name: postgresql-secret
                   key: password
+
           ports:
             - containerPort: 5432
               name: postgresql
+
           volumeMounts:
             - name: postgresql-data
               mountPath: /var/lib/postgresql/data
+
+          securityContext:
+            allowPrivilegeEscalation: false
+
       volumes:
         - name: postgresql-data
           persistentVolumeClaim:
