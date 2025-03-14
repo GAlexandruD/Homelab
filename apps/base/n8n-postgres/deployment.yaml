@@ -40,4 +40,4 @@ spec:
       volumes:
         - name: n8n-data
           persistentVolumeClaim:
-            claimName: n8n-data-pvc
+            claimName: n8n-postgres-data-pvc
