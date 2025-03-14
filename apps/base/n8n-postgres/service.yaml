@@ -5,7 +5,7 @@ metadata:
 spec:
   ports:
     - port: 5679 # The port exposed by the Service
-      targetPort: 5678 # The port inside the container
+      targetPort: 5679 # The port inside the container
   selector:
     app: n8n-postgresql
   type: ClusterIP
