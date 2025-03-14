@@ -46,12 +46,12 @@ spec:
       volumes:
         - name: creds
           secret:
-            secretName: cf-tunnel-stg-n8n
+            secretName: cf-tunnel-stg-n8n-postgres
 
         # Create a config.yaml file from the ConfigMap below.
         - name: config
           configMap:
-            name: n8n-cloudflared
+            name: n8n-postgres-cloudflared
             items:
               - key: config.yaml
                 path: config.yaml
@@ -63,7 +63,7 @@ spec:
 apiVersion: v1
 kind: ConfigMap
 metadata:
-  name: n8n-cloudflared
+  name: n8n-postgres-cloudflared
 data:
   config.yaml: |
     # Name of the tunnel you want to run
@@ -78,7 +78,7 @@ data:
 
     ingress:
     - hostname: n8n-postgres-stg.alexandrud.com
-      service: http://n8n-postgresql:5680
+      service: http://n8n-postgres:5680
 
     # This rule sends traffic to the built-in hello-world HTTP server. This can help debug connectivity
     # issues. If hello.example.com resolves and tunnel.example.com does not, then the problem is
