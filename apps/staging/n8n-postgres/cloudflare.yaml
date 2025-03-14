@@ -68,7 +68,7 @@ data:
   config.yaml: |
     # Name of the tunnel you want to run
 
-    tunnel: tunnel-stage-n8n
+    tunnel: tunnel-stage-n8n-postgres
 
     credentials-file: /etc/cloudflared/creds/credentials.json
 
