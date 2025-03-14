@@ -5,7 +5,6 @@ metadata:
 data:
   N8N_PORT: "5678"
   N8N_PROTOCOL: "http"
-  N8N_RUNNERS_ENABLED: "true"
   GENERIC_TIMEZONE: ""
   N8N_HOST: "n8n-stg.alexandrud.com"
   NODE_ENV: production
