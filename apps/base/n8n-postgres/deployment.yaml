@@ -20,9 +20,6 @@ spec:
       containers:
         - name: n8n
           image: docker.n8n.io/n8nio/n8n:1.82.1
-          ports:
-            - containerPort: 5679
-              protocol: TCP
 
           envFrom:
             - configMapRef:

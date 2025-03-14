@@ -12,6 +12,6 @@ spec:
               service:
                 name: n8n-postgresql
                 port:
-                  number: 5679
+                  number: 5680
             path: /
             pathType: Prefix
