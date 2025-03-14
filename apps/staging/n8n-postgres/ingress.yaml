@@ -10,7 +10,7 @@ spec:
         paths:
           - backend:
               service:
-                name: n8n-postgre
+                name: n8n-postgres
                 port:
                   number: 5680
             path: /

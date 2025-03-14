@@ -18,7 +18,7 @@ data:
   DB_TYPE: postgresdb
   GENERIC_TIMEZONE: ""
   N8N_HOST: "n8n-postgres-stg.alexandrud.com"
-  N8N_PORT: "5680"
+  N8N_PORT: "5678"
   N8N_PROTOCOL: "http"
   NODE_ENV: production
   WEBHOOK_URL: "https://n8n-postgres-stg.alexandrud.com/"
