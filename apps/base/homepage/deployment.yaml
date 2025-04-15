@@ -76,7 +76,7 @@ spec:
         - name: homepage-config
           # configMap:
           #   name: homepage
-          secret:
-            secretName: homepage-config
+          # secret:
+          #   secretName: homepage-config
         - name: logs
           emptyDir: {}
