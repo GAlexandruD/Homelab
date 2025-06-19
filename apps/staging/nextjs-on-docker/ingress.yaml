@@ -5,7 +5,7 @@ metadata:
 spec:
   ingressClassName: traefik
   rules:
-    - host: stg-nod.alexandrud.com    # Not used here, because cloudflare tunnel takes care of this.  
+    - host: nextjs-on-docker-adstage.alexandrud.com    # Not used here, because cloudflare tunnel takes care of this.  
       http:
         paths:
           - backend:

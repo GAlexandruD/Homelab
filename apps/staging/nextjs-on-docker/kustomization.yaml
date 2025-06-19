@@ -5,5 +5,5 @@ resources:
   - ../../base/nextjs-on-docker/
   - cloudflare.yaml
   #- audiobookshelf-container-env-secret.yaml
-  - cf-tunnel-stg-nextjs-on-docker.yaml
+  - cf-tunnel-nextjs-on-docker-adstage.yaml
   - ingress.yaml

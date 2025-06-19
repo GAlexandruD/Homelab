@@ -46,7 +46,7 @@ spec:
       volumes:
       - name: creds
         secret:
-          secretName: cf-tunnel-stg-nextjs-on-docker
+          secretName: cf-tunnel-nextjs-on-docker-adstage
 
       # Create a config.yaml file from the ConfigMap below.
       - name: config
@@ -68,7 +68,7 @@ data:
   config.yaml: |
     # Name of the tunnel you want to run
     
-    tunnel: tunnel-stage-nextjs-on-docker
+    tunnel: cf-tunnel-nextjs-on-docker-adstage
 
     credentials-file: /etc/cloudflared/creds/credentials.json
 
@@ -77,7 +77,7 @@ data:
     no-autoupdate: true
 
     ingress:
-    - hostname: stg-nod.alexandrud.com
+    - hostname: nextjs-on-docker.alexandrud.com
       service: http://nextjs-on-docker:3006
 
     # This rule sends traffic to the built-in hello-world HTTP server. This can help debug connectivity
