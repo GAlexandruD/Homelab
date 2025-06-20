@@ -1,0 +1,22 @@
+apiVersion: v1
+data:
+    credentials.json: ENC[AES256_GCM,data:NNAgWqp87JIjJiWvJDiJmn3G8+Uz6IdhQTQwjdAD1tKV/g71DxkCJQ4qhr+nmDvJVXKauTt0QEjNKk0iC+s4Q5H7T7FqTNvvafu8z+A/lwgjp3CLBkvIcMs1SG2wYRQKFB6TorDHoN3b+jWBRXM0bjjMMNDjllkwF70unfIabZ2VVoQ39qqyhT1ZesHxfARoE92BBocg642mvrDguj7obCBV93nnjwgt0F98mIVE5R4la0lOt56+7YeSo195K4RjhhdEc39cyM9WnA9egVyuacEYLN9/5gsqErbfQQzNDkKxC9JN0eH0lVeW/J8=,iv:2v4dKLDyQBhV9rpvRy641f3oLBhfTASpWCzaJ7Kx4x8=,tag:RI8ELoVEnIleK2W/cSQxpg==,type:str]
+kind: Secret
+metadata:
+    creationTimestamp: null
+    name: cf-tunnel-audiobookshelf-adstage
+sops:
+    age:
+        - recipient: age1fl9l0r80p7pzfur27fa7vhyjcq9nsm6tnzfrknsc2muyezk28fgsnfxtpp
+          enc: |
+            -----BEGIN AGE ENCRYPTED FILE-----
+            YWdlLWVuY3J5cHRpb24ub3JnL3YxCi0+IFgyNTUxOSBQbmZjbVBaZzZsam1jaUFF
+            SHFLRnBCRFFCYURPc1N6TG14dlZvMmtKWUJ3Clg0eUE1TFN1b3BMQ3dBQ0NJYUoz
+            dGVNbWVPb05CWFVXRUZ1aFYzOWwwa3MKLS0tIHF5Q0pVbC9CQVNsek1RNnhSTDlB
+            cXB2UDIrN3JsTTI0YmN3MEFSZmtSakUKZP3HQqEXhN5OhJxAsmofrSFDeDzpNqxu
+            OOs/BeWZC6cLjRywkd2G5+RpLPNnef3im9E53cK1Wmo1M3KdyF2c6A==
+            -----END AGE ENCRYPTED FILE-----
+    lastmodified: "2025-06-20T11:10:59Z"
+    mac: ENC[AES256_GCM,data:v3qbu2mG77X9Exg5sJj7252Oo0wJ9u6Zqc2daZpMyFDoUP5CdL+vNbVnYx5Sq/vB/sYqv+rbMg//YiB387AKGP1TC/xBi2TCmdarfuzlXy11xdxyYIT3Ww5P7djdItJvTH1EDo/bbv8CaBhL1M/juzZzfYvz+ZqAn4GJEfQBAN4=,iv:NJPvE1v/c2xj/pmRF5TI0urutb7JnK2TUK3PwKT4CUQ=,tag:xKhNjGTzza3YqcwNW0oYqA==,type:str]
+    encrypted_regex: ^(data|stringData)$
+    version: 3.10.2

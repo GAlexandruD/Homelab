@@ -5,5 +5,5 @@ resources:
   - ../../base/audiobookshelf
   - cloudflare.yaml
   - audiobookshelf-container-env-secret.yaml
-  - cf-tunnel-stg-abs.yaml
+  - cf-tunnel-audiobookshelf-adstage.yaml
   - ingress.yaml
