@@ -1,0 +1,42 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: uptimekuma
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: uptimekuma
+  template:
+    metadata:
+      labels:
+        app: uptimekuma
+    spec:
+      # securityContext:
+      #   fsGroup: 1000 # node group ID
+      #   runAsUser: 1000 # node user ID
+      #   runAsGroup: 1000 # node group ID
+
+      containers:
+        - name: uptimekuma
+          image: louislam/uptime-kuma:2.0.0-beta-rootless.3
+          ports:
+            - containerPort: 3001
+
+          envFrom:
+            #- configMapRef:
+            #    name: linkding-configmap
+            # - secretRef:
+            #     name: linkding-container-env
+
+          securityContext:
+            allowPrivilegeEscalation: false
+
+          volumeMounts:
+            - name: uptimekuma-data
+              mountPath: /app/data
+
+      volumes:
+        - name: uptimekuma-data
+          persistentVolumeClaim:
+            claimName: uptimekuma-app-data-pvc
