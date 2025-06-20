@@ -46,7 +46,7 @@ spec:
       volumes:
         - name: creds
           secret:
-            secretName: cf-tunnel-n8n-adstage.yaml
+            secretName: cf-tunnel-n8n-adstage
 
         # Create a config.yaml file from the ConfigMap below.
         - name: config
