@@ -5,5 +5,5 @@ resources:
   - ../../base/linkding
   - cloudflare.yaml
   - linkding-container-env-secret.yaml
-  - cf-tunnel-k3s-sops.yaml
+  - cf-tunnel-linkding-adstage.yaml
   - ingress.yaml
