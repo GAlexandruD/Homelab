@@ -2,7 +2,7 @@ apiVersion: kustomize.config.k8s.io/v1beta1
 kind: Kustomization
 namespace: n8n-postgres
 resources:
-  - ../../base/n8n-postgres/
+  - ../../base/n8n/
   - cloudflare.yaml
   - n8n-container-env-secret.yaml
   - cf-tunnel-n8n-adstage.yaml
