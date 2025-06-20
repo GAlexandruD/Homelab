@@ -48,8 +48,6 @@ spec:
           volumeMounts:
             - name: homepage-config
               mountPath: /app/config
-              persistentVolumeClaim:
-                claimName: homepage-config
           #   - mountPath: /app/config/custom.js
           #     name: homepage-config
           #     subPath: custom.js
