@@ -1,12 +1,12 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: cloudflared-audiobookshelf
+  name: cloudflared
 spec:
   selector:
     matchLabels:
       app: cloudflared
-  replicas: 2 # You could also consider elastic scaling for this deployment
+  replicas: 1 # You could also consider elastic scaling for this deployment
   template:
     metadata:
       labels:
@@ -46,7 +46,7 @@ spec:
       volumes:
       - name: creds
         secret:
-          secretName: cf-tunnel-stg-abs
+          secretName: cf-tunnel-audiobookshelf-adstage
 
       # Create a config.yaml file from the ConfigMap below.
       - name: config
@@ -68,7 +68,7 @@ data:
   config.yaml: |
     # Name of the tunnel you want to run
     
-    tunnel: tunnel-stage-audiobookshelf
+    tunnel: audiobookshelf-adstage
 
     credentials-file: /etc/cloudflared/creds/credentials.json
 
@@ -77,7 +77,7 @@ data:
     no-autoupdate: true
 
     ingress:
-    - hostname: stg-abs.alexandrud.com
+    - hostname: audiobookshelf-adstage.alexandrud.com
       service: http://audiobookshelf:3005
 
     # This rule sends traffic to the built-in hello-world HTTP server. This can help debug connectivity
