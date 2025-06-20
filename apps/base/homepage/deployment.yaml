@@ -78,9 +78,9 @@ spec:
         - name: homepage-config
           persistentVolumeClaim:
             claimName: homepage-config
-          # configMap:
-          #   name: homepage
-          # secret:
-          #   secretName: homepage-config
+          #configMap:
+            #name: homepage
+          #secret:
+            #secretName: homepage-config
         - name: logs
           emptyDir: {}
