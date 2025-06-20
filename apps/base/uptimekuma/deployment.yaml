@@ -12,10 +12,10 @@ spec:
       labels:
         app: uptimekuma
     spec:
-      # securityContext:
-      #   fsGroup: 1000 # node group ID
-      #   runAsUser: 1000 # node user ID
-      #   runAsGroup: 1000 # node group ID
+      securityContext:
+        fsGroup: 1000 # node group ID
+        runAsUser: 1000 # node user ID
+        runAsGroup: 1000 # node group ID
 
       containers:
         - name: uptimekuma
