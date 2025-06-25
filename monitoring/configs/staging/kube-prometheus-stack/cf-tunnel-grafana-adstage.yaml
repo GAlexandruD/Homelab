@@ -5,6 +5,7 @@ kind: Secret
 metadata:
     creationTimestamp: null
     name: cf-tunnel-grafana-adstage
+    namespace: monitoring
 sops:
     age:
         - recipient: age1fl9l0r80p7pzfur27fa7vhyjcq9nsm6tnzfrknsc2muyezk28fgsnfxtpp
