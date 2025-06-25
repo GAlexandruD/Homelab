@@ -1,0 +1,22 @@
+apiVersion: v1
+data:
+    credentials.json: ENC[AES256_GCM,data:j5fQDdhYWB7yDQjS/0K/AHKhUIjh24v+rT2/jpsfiNwpF1rbqzB8/R3X/Qbz0QTRSUYIvL4RIVbaxAI3EFD8Mdud2t0BmgD9qYPybxNcMRkSlWL/cH706+Gb/rombmWtiianLyHwwB/bM7NDi8cyv1Uk3x+Wo2WIeNUlFT9Oc4NfwuZUAAk0qST31SWPJDJdEmvlWYEiaC5qX3VFAw2zMuR3eDxZiqdB9/SsGqHHJ8pYqC5830J2FBe74psMjXZIpwv1bNujypSUIsmkL+e6xBKq2WKKm5X+bAanVgWBvZP5Gnq7jTj8RPwaY4Y=,iv:3bZRADTdlaxS/Z8/3N99U/xiXeiqoMv9ybglL6kbdQI=,tag:UZsjD+oLko5dCdqKLgUQgA==,type:str]
+kind: Secret
+metadata:
+    creationTimestamp: null
+    name: cf-tunnel-homepage-adstage
+sops:
+    age:
+        - recipient: age1fl9l0r80p7pzfur27fa7vhyjcq9nsm6tnzfrknsc2muyezk28fgsnfxtpp
+          enc: |
+            -----BEGIN AGE ENCRYPTED FILE-----
+            YWdlLWVuY3J5cHRpb24ub3JnL3YxCi0+IFgyNTUxOSBLTjI0aitOczJiM1hyUjJs
+            eXpVSTBOVTNubC8wbjlzSXpFT1h6dWVOK0NBCkhqMi8vNkg1bnppODgyYW96b21K
+            Mkd3a0s0czZtWjc2STNUZzdxeGRhMjgKLS0tIHNJSWU1bWVDeEUxMm9LVUh2UHNj
+            TlM2aXBvYjdXbDRiKzRtMmRjaHdzencKivtiaNQPYOJhT3V9J954vZhwv+U8dOsv
+            JoxNR95gt5dDbcDjDBYolsu/PKaaBC7igOJ3ohUe+PYLLyTY1tefuA==
+            -----END AGE ENCRYPTED FILE-----
+    lastmodified: "2025-06-25T15:44:54Z"
+    mac: ENC[AES256_GCM,data:6orZ9Le0wra9GVyz+VqkaGK+U8MCtF93COL8Qb1fTUM8rcvlqE1Ms/8+ClmwLPLkIOPjZNzT7e4a7v1PJdafFP9Xki0+kno1nGUJyniKKVK6Wh3MTVMo2lGGzFgKAdkdiwKMNx7OgeMfLnZ4AbVVg9MGZaSawMckHnU1O2v4n0k=,iv:s5zbsQrweBI3F68fiqWvM+xGrCN7NzYIi9OjmcKW2nU=,tag:GxdEWHpTtV28eSeJQVut0Q==,type:str]
+    encrypted_regex: ^(data|stringData)$
+    version: 3.10.2
