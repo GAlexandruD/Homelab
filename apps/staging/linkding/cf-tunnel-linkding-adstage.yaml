@@ -1,7 +1,22 @@
 apiVersion: v1
 data:
-  credentials.json: eyJBY2NvdW50VGFnIjoiYTIzMGRmNWFhNjgwMTc1ZGIxMWQzMjYzMmZmYTAzOWEiLCJUdW5uZWxTZWNyZXQiOiJhZkhHU0lMa00yRmZlaER0YUxCSmhaN0o0RmtMZnVCRm5BaDV2bmpvNzZJPSIsIlR1bm5lbElEIjoiM2IwN2YxODAtMTE1ZS00NmViLTlmYzMtZTZhNTUxOWE4ZGRhIiwiRW5kcG9pbnQiOiIifQ==
+    credentials.json: ENC[AES256_GCM,data:HS801ttSoswier8dfS9PD2pa9Kd8HgERjEtuhTt3yYD/hvtHeDehWfBwmxvIPI+Vu7Lsz2LW+KE5StOuoTVDmEXtdWRHNSDcRPvgRKwGJJOtvxy6ZLY4EFqMKvu6PBiTHESLJSW9Z2v0EfoUlGigoOy+XToCEPbuZVcOWqacVCibHMOhYPA1vE5pXsXCuhWKmNClk7QIHFtrQOBO1hphlW1SQj57qjDNVoFrG+2kaCEv0ab0KMo0rDoiZN+hB/vcz+voQNoL1ejhz75qnKr6YKs/j1271vcbHe/Fx+AFXnBlFCeQCqMKpt+TqoI=,iv:ZdLaj5FDNEhHuWZbdYYYWiaACo9iB9wJBe4bt8dEvqo=,tag:89JhfPtV5jfMUT+w0n2MVA==,type:str]
 kind: Secret
 metadata:
-  creationTimestamp: null
-  name: cf-tunnel-linkding-adstage
+    creationTimestamp: null
+    name: cf-tunnel-linkding-adstage
+sops:
+    age:
+        - recipient: age1fl9l0r80p7pzfur27fa7vhyjcq9nsm6tnzfrknsc2muyezk28fgsnfxtpp
+          enc: |
+            -----BEGIN AGE ENCRYPTED FILE-----
+            YWdlLWVuY3J5cHRpb24ub3JnL3YxCi0+IFgyNTUxOSBEQmZEd1hQK0h4SmdsbXhL
+            WE5scjdid0tNUUpTT2ttMVVOOW42Nm94V0dRCk5lSkRyVEtUQ2lmcTlZS0tEWTY3
+            VmNlWHdDNHlOdzFsRjg1cTZzbUlQZ2MKLS0tIDFSeDJETUdaOTgzL05EcFJlRCt0
+            dktFOVRCNURBeTBNdDZHOGY4WCt0d3MKgNL7rKWqE9ARu7jBmog6RyWgRvYBycMO
+            y5z/b9YfnDaSj+egK3NTgHVkqa66UCHmyNmiEOVMHICXbzV9spdW3w==
+            -----END AGE ENCRYPTED FILE-----
+    lastmodified: "2025-06-25T15:51:17Z"
+    mac: ENC[AES256_GCM,data:yJpb5+noKyZw7SY0IwKdM3fMVF3BlJ1KuYZpRZ6X1Qjz8Au3V+Dt7SeHJrmEZr7v2yUhgpiM9BXTmWFovnaTUInyGQFRNvoY5RTNkmu/BjzjZu15OKzVDWWGpa74zBEUOc9IXsB/GTYkrxjJhw0gSVAyJrPEpS7ZV642uFZ8Xjs=,iv:SL4a2joQJAomdHvuFFozD4yz3yVlPe0IlElsKkxM0t0=,tag:nEWHX8UwusUGSRsrqmzefQ==,type:str]
+    encrypted_regex: ^(data|stringData)$
+    version: 3.10.2
