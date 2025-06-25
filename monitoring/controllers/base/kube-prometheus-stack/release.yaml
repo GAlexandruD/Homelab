@@ -32,6 +32,7 @@ spec:
     grafana:
       admin:
         existingSecret: grafana-admin-secret
+        userKey: adminUser
         passwordKey: adminPassword
       ingress:
         ## If true, Grafana Ingress will be created
@@ -55,4 +56,4 @@ spec:
         tls:
         - secretName: grafana-tls-secret
           hosts:
-          - grafana-adstage.alexandrud.com
+            - grafana-adstage.alexandrud.com
