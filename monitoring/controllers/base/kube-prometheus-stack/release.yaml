@@ -32,7 +32,6 @@ spec:
     grafana:
       admin:
         existingSecret: grafana-admin-secret
-        passwordKey: adminPassword
       ingress:
         ## If true, Grafana Ingress will be created
         ##
