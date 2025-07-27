@@ -19,7 +19,7 @@ spec:
 
       containers:
         - name: audiobookshelf
-          image: ghcr.io/advplyr/audiobookshelf:2.26.2
+          image: ghcr.io/advplyr/audiobookshelf:2.26.3
           env:
             - name: PORT
               value: "8080" # Set the internal port to 8080 instead of 80.
