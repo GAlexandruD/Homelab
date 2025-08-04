@@ -19,7 +19,7 @@ spec:
 
       containers:
         - name: n8n
-          image: docker.n8n.io/n8nio/n8n:1.105.0
+          image: docker.n8n.io/n8nio/n8n:1.106.0
 
           envFrom:
             - configMapRef:
