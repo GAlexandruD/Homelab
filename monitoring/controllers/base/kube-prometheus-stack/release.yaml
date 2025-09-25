@@ -8,9 +8,9 @@ spec:
   chart:
     spec:
       chart: kube-prometheus-stack
-      version: "66.2.2"
+      version: "77.11.0"
 
-      # version: "58.x"
+      # version: "66.2.2"
 
       sourceRef:
         kind: HelmRepository
@@ -54,6 +54,6 @@ spec:
         ## Secret must be manually created in the namespace
         ##
         tls:
-        - secretName: grafana-tls-secret
-          hosts:
-            - grafana-adstage.alexandrud.com
+          - secretName: grafana-tls-secret
+            hosts:
+              - grafana-adstage.alexandrud.com
