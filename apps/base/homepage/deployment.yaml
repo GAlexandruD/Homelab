@@ -46,11 +46,11 @@ spec:
               drop:
                 - ALL
           volumeMounts:
-            - name: config-volume
-              mountPath: /app/config
-              readOnly: false
-            # - name: homepage-config
+            # - name: config-volume
             #   mountPath: /app/config
+            #   readOnly: false
+            - name: homepage-config
+              mountPath: /app/config
           #   - mountPath: /app/config/custom.js
           #     name: homepage-config
           #     subPath: custom.js
@@ -78,11 +78,11 @@ spec:
           #   - mountPath: /app/config/logs
           #     name: logs
       volumes:
-        # - name: homepage-config
-        #   persistentVolumeClaim:
-        #     claimName: homepage-config
+        - name: homepage-config
+          persistentVolumeClaim:
+            claimName: homepage-config
         - name: logs
           emptyDir: {}
-        - name: config-volume
-          configMap:
-            name: homepage-env-configmap
+        # - name: config-volume
+        #   configMap:
+        #     name: homepage-env-configmap
