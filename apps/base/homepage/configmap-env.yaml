@@ -4,3 +4,54 @@ metadata:
   name: homepage-env-configmap
 data:
   HOMEPAGE_ALLOWED_HOSTS: "homepage-adstage.alexandrud.com:3000,homepage-adstage.alexandrud.com"
+  service.yaml: |
+    ---
+    # For configuration options and examples, please see:
+    # https://gethomepage.dev/configs/services/
+
+    - adstage:
+        - N8n:
+            href: https://n8n-adstage.alexandrud.com/
+            description: Great automations
+            icon: n8n
+        - Linkding:
+            href: https://linkding-adstage.alexandrud.com/
+            description: Bookmarks
+            icon: linkding
+        - Wallabag:
+            #href: https://wallabag-adstage.alexandrud.com/
+            #description: Read later.
+            description: NOT INSTALLED YET.
+            icon: wallabag
+        - Audiobookshelf:
+            href: https://audiobookshelf-adstage.alexandrud.com/
+            description: Audio books.
+            icon: audiobookshelf
+        - Commafeed:
+            href: https://commafeed-adstage.alexandrud.com/
+            description: RSS feed.
+            icon: commafeed
+        - NextJS-App:
+            href: https://nextjs-on-docker-adstage.alexandrud.com/
+            description: RSS feed.
+            icon: nextjs
+
+    - Monitoring:
+        - Adstage - UptimeKuma:
+            href: https://uptimekuma-adstage.alexandrud.com/status/adstage
+            description: Monitors connectivity
+            icon: uptime-kuma
+            widget:
+              type: uptimekuma
+              url: https://uptimekuma-adstage.alexandrud.com
+              slug: adstage
+
+        - GrafanaMonitoring:
+            href: http://grafana-adstage.alexandrud.com/
+            description: Monitoring
+            icon: grafana
+
+    - My Third Group:
+        - My Third Service:
+            href: http://alexandrud.com/
+            description: Homepage is 😎
