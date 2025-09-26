@@ -2,6 +2,7 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: commafeed
+spec:
   replicas: 1
   selector:
     matchLabels:
@@ -19,6 +20,8 @@ metadata:
       containers:
         - name: commafeed
           image: athou/commafeed:5.11.1-postgresql
+          ports:
+            - containerPort: 8082
 
           envFrom:
             - configMapRef:
