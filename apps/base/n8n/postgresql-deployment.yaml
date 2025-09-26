@@ -18,7 +18,7 @@ spec:
         runAsGroup: 999 # postgres group ID
       containers:
         - name: postgresql
-          image: postgres:17
+          image: postgres:18
           env:
             - name: POSTGRES_DB
               value: n8n
