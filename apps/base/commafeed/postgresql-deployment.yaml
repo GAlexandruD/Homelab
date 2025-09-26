@@ -1,0 +1,50 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: postgresql
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: postgresql
+  template:
+    metadata:
+      labels:
+        app: postgresql
+    spec:
+      securityContext:
+        fsGroup: 999 # postgres group ID
+        runAsUser: 999 # postgres user ID
+        runAsGroup: 999 # postgres group ID
+      containers:
+        - name: postgresql
+          image: postgres:17
+          env:
+            - name: POSTGRES_DB
+              value: commafeed
+            - name: PGDATA
+              value: /var/lib/postgresql/data/postgres17/
+            - name: POSTGRES_USER
+              value: commafeed
+            - name: POSTGRES_PASSWORD
+              value: commafeed
+              # valueFrom:
+              #   secretKeyRef:
+              #     name: postgresql-secret
+              #     key: password
+
+          ports:
+            - containerPort: 5432
+              name: postgresql-commafeed
+
+          volumeMounts:
+            - name: postgresql-commafeed-data
+              mountPath: /var/lib/postgresql/data
+
+          securityContext:
+            allowPrivilegeEscalation: false
+
+      volumes:
+        - name: postgresql-commafeed-data
+          persistentVolumeClaim:
+            claimName: postgresql-commafeed-data-pvc
