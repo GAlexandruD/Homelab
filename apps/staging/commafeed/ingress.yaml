@@ -1,7 +1,7 @@
 apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
-  name: commafeed-postgres
+  name: commafeed-psql
 spec:
   ingressClassName: traefik
   rules:
@@ -10,7 +10,7 @@ spec:
         paths:
           - backend:
               service:
-                name: commafeed-postgres
+                name: commafeed-psql
                 port:
                   number: 8082
             path: /
