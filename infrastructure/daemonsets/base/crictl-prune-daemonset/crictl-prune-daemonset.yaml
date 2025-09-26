@@ -1,0 +1,45 @@
+apiVersion: apps/v1
+kind: DaemonSet
+metadata:
+  name: crictl-prune-daemonset
+  namespace: kube-system
+  labels:
+    app: crictl-prune-daemonset
+spec:
+  selector:
+    matchLabels:
+      app: crictl-prune-daemonset
+  template:
+    metadata:
+      labels:
+        app: crictl-prune-daemonset
+    spec:
+      hostPID: true
+      containers:
+        - name: cleanup
+          image: alpine:3.22
+          command:
+            - /bin/sh
+            - -c
+            - |
+              apk add --no-cache cri-tools
+              while true; do
+                echo "Running crictl rmi --prune at $(date)"
+                crictl rmi --prune || echo "Prune failed at $(date)" >&2
+                sleep 86400
+              done
+          securityContext:
+            privileged: true
+          volumeMounts:
+            - name: var-lib
+              mountPath: /var/lib
+            - name: run-containerd
+              mountPath: /run/containerd
+      restartPolicy: Always
+      volumes:
+        - name: var-lib
+          hostPath:
+            path: /var/lib
+        - name: run-containerd
+          hostPath:
+            path: /run/containerd
