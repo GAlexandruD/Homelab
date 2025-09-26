@@ -35,16 +35,16 @@ spec:
 
           ports:
             - containerPort: 5432
-              name: psql-commafeed
+              name: postgresql
 
           volumeMounts:
-            - name: postgresql-commafeed-data
+            - name: postgresql-data
               mountPath: /var/lib/postgresql/data
 
           securityContext:
             allowPrivilegeEscalation: false
 
       volumes:
-        - name: postgresql-commafeed-data
+        - name: postgresql-data
           persistentVolumeClaim:
-            claimName: postgresql-commafeed-data-pvc
+            claimName: postgresql-data-pvc
