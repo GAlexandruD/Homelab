@@ -1,7 +1,7 @@
 apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
-  name: n8n-postgres
+  name: n8n
 spec:
   ingressClassName: traefik
   rules:
@@ -10,7 +10,7 @@ spec:
         paths:
           - backend:
               service:
-                name: n8n-postgres
+                name: n8n
                 port:
                   number: 5680
             path: /

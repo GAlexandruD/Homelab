@@ -1,16 +1,16 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: n8n-postgres
+  name: n8n
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: n8n-postgres
+      app: n8n
   template:
     metadata:
       labels:
-        app: n8n-postgres
+        app: n8n
     spec:
       securityContext:
         fsGroup: 1000 # node group ID
