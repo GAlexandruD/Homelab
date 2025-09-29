@@ -23,7 +23,7 @@ spec:
             - name: POSTGRES_DB
               value: commafeed
             - name: PGDATA
-              value: /var/lib/postgresql/data/postgres17/
+              value: /var/lib/postgresql/data/
             - name: POSTGRES_USER
               value: commafeed
             - name: POSTGRES_PASSWORD
