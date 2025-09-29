@@ -23,7 +23,7 @@ spec:
             - name: POSTGRES_DB
               value: commafeed
             - name: PGDATA
-              value: /var/lib/postgresql/data/
+              value: /var/lib/postgresql
             - name: POSTGRES_USER
               value: commafeed
             - name: POSTGRES_PASSWORD
@@ -39,7 +39,7 @@ spec:
 
           volumeMounts:
             - name: postgresql-data
-              mountPath: /var/lib/postgresql/data
+              mountPath: /var/lib/postgresql
 
           securityContext:
             allowPrivilegeEscalation: false
