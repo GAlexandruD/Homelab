@@ -38,8 +38,8 @@ spec:
                   key: password
 
           securityContext:
-            runAsUser: 65534 # UID for nobody
-            runAsGroup: 65534 # GID for nobody
+            # runAsUser: 65534 # UID for nobody
+            # runAsGroup: 65534 # GID for nobody
             allowPrivilegeEscalation: false
 
           volumeMounts:
