@@ -1,0 +1,49 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: postgresql
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: postgresql
+  template:
+    metadata:
+      labels:
+        app: postgresql
+    spec:
+      securityContext:
+        fsGroup: 999 # postgres group ID
+        runAsUser: 999 # postgres user ID
+        runAsGroup: 999 # postgres group ID
+      containers:
+        - name: postgresql
+          image: postgres:18
+          env:
+            - name: POSTGRES_DB
+              value: wallabag
+            - name: PGDATA
+              value: /var/lib/postgresql/postgres18
+            - name: POSTGRES_USER
+              value: wallabag
+            - name: POSTGRES_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: postgresql-secret
+                  key: password
+
+          ports:
+            - containerPort: 5432
+              name: postgresql
+
+          volumeMounts:
+            - name: postgresql-data
+              mountPath: /var/lib/postgresql
+
+          securityContext:
+            allowPrivilegeEscalation: false
+
+      volumes:
+        - name: postgresql-data
+          persistentVolumeClaim:
+            claimName: postgresql-data-pvc

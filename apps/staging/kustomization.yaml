@@ -8,3 +8,4 @@ resources:
   - n8n
   - nextjs-on-docker
   - uptimekuma
+  - wallabag
