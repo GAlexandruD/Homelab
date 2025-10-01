@@ -12,11 +12,8 @@ spec:
       labels:
         app: wallabag
     spec:
-      # envsubst in the entrypoint sh needs to write to /etc/php
-      #securityContext:
-      #  fsGroup: 1000 # node group ID
-      #  runAsUser: 1000 # node user ID
-      #  runAsGroup: 1000 # node group ID
+      securityContext:
+        fsGroup: 65534 # GID for fs
 
       containers:
         - name: wallabag
@@ -41,6 +38,8 @@ spec:
                   key: password
 
           securityContext:
+            runAsUser: 65534 # UID for nobody
+            runAsGroup: 65534 # GID for nobody
             allowPrivilegeEscalation: false
 
           volumeMounts:
