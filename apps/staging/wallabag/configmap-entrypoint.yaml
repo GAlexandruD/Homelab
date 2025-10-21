@@ -111,7 +111,8 @@ data:
         echo "wallabag is ready!"
         mkdir -p /var/www/wallabag/var/s6
         cd /var/www/wallabag/var/s6
-        exec s6-svscan /etc/s6/
+        sleep 5000
+        #exec s6-svscan /etc/s6/
     fi
 
     if [ "$COMMAND_ARG1" = "import" ]; then
