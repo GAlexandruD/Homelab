@@ -109,6 +109,7 @@ data:
         echo "Starting wallabag ..."
         provisioner
         echo "wallabag is ready!"
+        cd /var/run/s6
         exec s6-svscan /etc/s6/
     fi
 
