@@ -14,6 +14,14 @@ spec:
     spec:
       securityContext:
         fsGroup: 65534 # GID for fs
+      initContainers:
+        - name: prep-s6
+          image: busybox:1.37
+          command: ["/bin/sh", "-c"]
+          args:
+            - mkdir -p /var/run/s6 && chown 65534:65534 /var/run/s6
+          securityContext:
+            runAsUser: 0
 
       containers:
         - name: wallabag
