@@ -46,14 +46,25 @@ spec:
             - name: wallabag-data
               mountPath: web/assets/images
             - name: wallabag-php-config
-              mountPath: /etc/php81/conf.d/50_wallabag.ini.test
+              mountPath: /etc/php81/conf.d/50_wallabag.ini
               subPath: 50_wallabag.ini
+              readOnly: true
+            - name: wallabag-entrypoint
+              mountPath: /entrypoint.sh
+              subPath: entrypoint.sh
               readOnly: true
 
       volumes:
         - name: wallabag-data
           persistentVolumeClaim:
             claimName: wallabag-data-pvc
+        - name: wallabag-entrypoint
+          configMap:
+            name: wallabag-entrypoint
+            items:
+              - key: entrypoint.sh
+                path: entrypoint.sh
+                mode: 0755
         - name: wallabag-php-config
           configMap:
             name: wallabag-php-config

@@ -5,6 +5,7 @@ resources:
   - ../../base/wallabag/
   - cf-tunnel-wallabag-adstage.yaml
   - cloudflare.yaml
+  - configmap-entrypoint.yaml
   - configmap-php.yaml
   - configmap.yaml
   - ingress.yaml
