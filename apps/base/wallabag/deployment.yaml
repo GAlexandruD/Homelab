@@ -46,7 +46,7 @@ spec:
             - name: wallabag-data
               mountPath: web/assets/images
             - name: wallabag-php-config
-              mountPath: /etc/php81/conf.d/50_wallabag.ini
+              mountPath: /etc/php81/conf.d/50_wallabag.ini.test
               subPath: 50_wallabag.ini
               readOnly: true
 
