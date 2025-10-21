@@ -45,8 +45,18 @@ spec:
           volumeMounts:
             - name: wallabag-data
               mountPath: web/assets/images
+            - name: wallabag-php-config
+              mountPath: /etc/php81/conf.d/50_wallabag.ini
+              subPath: 50_wallabag.ini
+              readOnly: true
 
       volumes:
         - name: wallabag-data
           persistentVolumeClaim:
             claimName: wallabag-data-pvc
+        - name: wallabag-php-config
+          configMap:
+            name: wallabag-php-config
+            items:
+              - key: 50_wallabag.ini
+                path: 50_wallabag.ini

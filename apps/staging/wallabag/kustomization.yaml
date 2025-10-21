@@ -3,9 +3,10 @@ kind: Kustomization
 namespace: wallabag
 resources:
   - ../../base/wallabag/
-  - cloudflare.yaml
-  - wallabag-container-env-secret.yaml
   - cf-tunnel-wallabag-adstage.yaml
-  - ingress.yaml
+  - cloudflare.yaml
+  - configmap-php.yaml
   - configmap.yaml
+  - ingress.yaml
   - postgresql-secret.yaml
+  - wallabag-container-env-secret.yaml

@@ -1,0 +1,8 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: wallabag-php-config
+data:
+  50_wallabag.ini: |
+    ; managed by GitOps
+    memory_limit = 128M
