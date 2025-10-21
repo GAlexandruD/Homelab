@@ -23,7 +23,7 @@ data:
     }
 
     install_wallabag() {
-        su -c "php bin/console wallabag:install --env=prod -n" -s /bin/sh nobody
+        /bin/sh -c "php bin/console wallabag:install --env=prod -n"
     }
 
     provisioner() {
@@ -102,7 +102,7 @@ data:
 
         # Remove cache and install Wallabag
         rm -f -r /var/www/wallabag/var/cache
-        su -c "SYMFONY_ENV=prod composer install --no-dev -o --prefer-dist" -s /bin/sh nobody
+        /bin/sh -c "SYMFONY_ENV=prod composer install --no-dev -o --prefer-dist"
     }
 
     if [ "$COMMAND_ARG1" = "wallabag" ]; then
@@ -114,12 +114,12 @@ data:
 
     if [ "$COMMAND_ARG1" = "import" ]; then
         provisioner
-        exec su -c "bin/console wallabag:import:redis-worker --env=prod $COMMAND_ARG2 -vv" -s /bin/sh nobody
+        /bin/sh -c "bin/console wallabag:import:redis-worker --env=prod $COMMAND_ARG2 -vv"
     fi
 
     if [ "$COMMAND_ARG1" = "migrate" ]; then
         provisioner
-        exec su -c "bin/console doctrine:migrations:migrate --env=prod --no-interaction" -s /bin/sh nobody
+        exec /bin/sh -c "bin/console doctrine:migrations:migrate --env=prod --no-interaction"
     fi
 
     exec "$@"
