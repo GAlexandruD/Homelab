@@ -19,7 +19,7 @@ spec:
 
       containers:
         - name: commafeed
-          image: athou/commafeed:5.11.1-postgresql
+          image: athou/commafeed:5.12.0-postgresql
           ports:
             - containerPort: 8082
 
