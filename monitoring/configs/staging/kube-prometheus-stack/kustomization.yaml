@@ -4,3 +4,4 @@ resources:
   - grafana-tls-secret.yaml
   - cloudflare.yaml
   - cf-tunnel-grafana-adstage.yaml
+  - dashboards.yaml
