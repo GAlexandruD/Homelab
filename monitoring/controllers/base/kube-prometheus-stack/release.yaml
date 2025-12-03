@@ -8,9 +8,10 @@ spec:
   chart:
     spec:
       chart: kube-prometheus-stack
-      version: "77.11.0"
+      version: "79.11.0"
 
       # version: "66.2.2"
+      # version: "77.11.0"
 
       sourceRef:
         kind: HelmRepository
@@ -34,6 +35,9 @@ spec:
         existingSecret: grafana-admin-secret
         userKey: adminUser
         passwordKey: adminPassword
+      grafana.ini:
+        server:
+          root_url: https://grafana-adstage.alexandrud.com
       ingress:
         ## If true, Grafana Ingress will be created
         ##
