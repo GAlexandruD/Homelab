@@ -4,7 +4,7 @@ My starting Kubernetes cluster.
 
 ## 2025-09-26
 
-Free disk space on cluster was getting low. I have configured the `crictl-prune-daemonset` to run `criclt rmi --prune` everyday.
+Free disk space on cluster was getting low. I have configured the `crictl-prune-daemonset` to run `crictl rmi --prune` everyday.
 `rmi` - Remove one or more images
 `--prune` - Remove all unused images
 In order for k3s to work, I added the configuration file `/etc/crictl.yaml`:
