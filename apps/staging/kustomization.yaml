@@ -7,5 +7,6 @@ resources:
   - linkding
   - n8n
   - nextjs-on-docker
+  - transmission
   - uptimekuma
   - wallabag
