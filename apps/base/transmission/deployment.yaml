@@ -14,8 +14,8 @@ spec:
     spec:
       securityContext:
         fsGroup: 1000 # node group ID
-        runAsUser: 1000 # node user ID
-        runAsGroup: 1000 # node group ID
+        #runAsUser: 1000 # node user ID
+        #runAsGroup: 1000 # node group ID
 
       containers:
         - name: transmission
