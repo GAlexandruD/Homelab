@@ -1,0 +1,74 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: transmission
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: transmission
+  template:
+    metadata:
+      labels:
+        app: transmission
+    spec:
+      securityContext:
+        fsGroup: 1000 # node group ID
+        runAsUser: 1000 # node user ID
+        runAsGroup: 1000 # node group ID
+
+      containers:
+        - name: transmission
+          image: lscr.io/linuxserver/transmission:4.1.1
+          # env:
+          #   - name: PORT
+          #     value: "8080" # Set the internal port to 8080 instead of 80.
+          ports:
+            - containerPort: 9091 # Expose the 9091 port.
+              name: web
+            - containerPort: 51413
+              name: tcp
+            - containerPort: 51413
+              name: udp
+              protocol: UDP
+            
+          resources:
+            requests:
+              cpu: 100m
+              memory: 128Mi
+            limits:
+              cpu: 500m
+              memory: 512Mi
+
+          envFrom:
+            #- configMapRef:
+            #    name: linkding-configmap
+            #- secretRef:
+            #    name: transmission-container-env
+
+          securityContext:
+            allowPrivilegeEscalation: false
+
+          volumeMounts:
+            - name: transmission-config
+              mountPath: /config
+
+            - name: transmission-downloads
+              mountPath: /downloads
+
+            - name: transmission-watch
+              mountPath: /watch
+
+      volumes:
+        - name: transmission-config
+          persistentVolumeClaim:
+            claimName: transmission-config-pvc
+
+        - name: transmission-downloads
+          persistentVolumeClaim:
+            claimName: transmission-downloads-pvc
+
+        - name: transmission-watch
+          persistentVolumeClaim:
+            claimName: transmission-watch-pvc
+
