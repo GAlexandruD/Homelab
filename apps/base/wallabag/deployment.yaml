@@ -64,6 +64,8 @@ spec:
           volumeMounts:
             - name: s6-run
               mountPath: /var/run/s6
+            - name: s6-lock
+              mountPath: /etc/s6/.s6-svscan
             - name: wallabag-data
               mountPath: web/assets/images
             - name: wallabag-php-config
@@ -77,6 +79,8 @@ spec:
 
       volumes:
         - name: s6-run
+          emptyDir: {}
+        - name: s6-lock
           emptyDir: {}
         - name: wallabag-data
           persistentVolumeClaim:
