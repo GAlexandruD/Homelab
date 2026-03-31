@@ -12,20 +12,6 @@ spec:
       labels:
         app: wallabag
     spec:
-      securityContext:
-        fsGroup: 65534 # GID for fs
-      initContainers:
-        - name: prep-s6
-          image: busybox:1.37
-          command: ["/bin/sh", "-c"]
-          args:
-            - mkdir -p /var/run/s6 && chown 65534:65534 /var/run/s6
-          securityContext:
-            runAsUser: 0
-          volumeMounts:
-            - name: s6-run
-              mountPath: /var/run/s6
-
       containers:
         - name: wallabag
           image: wallabag/wallabag:2.6.14
@@ -57,49 +43,23 @@ spec:
                   key: password
 
           securityContext:
-            runAsUser: 65534 # UID for nobody
-            runAsGroup: 65534 # GID for nobody
+            # runAsUser: 65534 # UID for nobody
+            # runAsGroup: 65534 # GID for nobody
             allowPrivilegeEscalation: false
 
           volumeMounts:
-            - name: s6-run
-              mountPath: /var/run/s6
-            - name: s6-lock
-              mountPath: /etc/s6/.s6-svscan
-            - name: s6-nginx-event
-              mountPath: /etc/s6/nginx/event
-            - name: s6-php-fpm-event
-              mountPath: /etc/s6/php-fpm/event
             - name: wallabag-data
               mountPath: web/assets/images
             - name: wallabag-php-config
               mountPath: /etc/php81/conf.d/50_wallabag.ini
               subPath: 50_wallabag.ini
               readOnly: true
-            - name: wallabag-entrypoint
-              mountPath: /entrypoint.sh
-              subPath: entrypoint.sh
-              readOnly: true
+
 
       volumes:
-        - name: s6-run
-          emptyDir: {}
-        - name: s6-lock
-          emptyDir: {}
-        - name: s6-nginx-event
-          emptyDir: {}
-        - name: s6-php-fpm-event
-          emptyDir: {}
         - name: wallabag-data
           persistentVolumeClaim:
             claimName: wallabag-data-pvc
-        - name: wallabag-entrypoint
-          configMap:
-            name: wallabag-entrypoint
-            items:
-              - key: entrypoint.sh
-                path: entrypoint.sh
-                mode: 0755
         - name: wallabag-php-config
           configMap:
             name: wallabag-php-config
