@@ -51,6 +51,19 @@ spec:
           securityContext:
             allowPrivilegeEscalation: false
 
+          livenessProbe:
+            tcpSocket:
+              port: web
+            initialDelaySeconds: 30
+            periodSeconds: 30
+            failureThreshold: 3
+          readinessProbe:
+            tcpSocket:
+              port: web
+            initialDelaySeconds: 10
+            periodSeconds: 10
+            failureThreshold: 3
+
           volumeMounts:
             - name: transmission-config
               mountPath: /config

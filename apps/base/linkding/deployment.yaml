@@ -21,7 +21,8 @@ spec:
         - name: linkding
           image: sissbruecker/linkding:1.45.0
           ports:
-            - containerPort: 9090
+            - name: http
+              containerPort: 9090
           
           resources:
             requests:
@@ -39,6 +40,21 @@ spec:
 
           securityContext:
             allowPrivilegeEscalation: false
+
+          livenessProbe:
+            httpGet:
+              path: /health
+              port: http
+            initialDelaySeconds: 30
+            periodSeconds: 30
+            failureThreshold: 3
+          readinessProbe:
+            httpGet:
+              path: /health
+              port: http
+            initialDelaySeconds: 10
+            periodSeconds: 10
+            failureThreshold: 3
 
           volumeMounts:
             - name: linkding-data

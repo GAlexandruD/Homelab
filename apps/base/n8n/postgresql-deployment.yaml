@@ -43,6 +43,19 @@ spec:
           securityContext:
             allowPrivilegeEscalation: false
 
+          livenessProbe:
+            exec:
+              command: ["pg_isready", "-U", "n8n"]
+            initialDelaySeconds: 30
+            periodSeconds: 30
+            failureThreshold: 3
+          readinessProbe:
+            exec:
+              command: ["pg_isready", "-U", "n8n"]
+            initialDelaySeconds: 10
+            periodSeconds: 10
+            failureThreshold: 3
+
       volumes:
         - name: postgresql-data
           persistentVolumeClaim:

@@ -42,8 +42,27 @@ spec:
                   name: postgresql-secret
                   key: password
 
+          ports:
+            - name: http
+              containerPort: 5678
+
           securityContext:
             allowPrivilegeEscalation: false
+
+          livenessProbe:
+            httpGet:
+              path: /healthz
+              port: http
+            initialDelaySeconds: 60
+            periodSeconds: 30
+            failureThreshold: 3
+          readinessProbe:
+            httpGet:
+              path: /healthz
+              port: http
+            initialDelaySeconds: 30
+            periodSeconds: 10
+            failureThreshold: 3
 
           volumeMounts:
             - name: n8n-data

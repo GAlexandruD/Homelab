@@ -21,7 +21,8 @@ spec:
         - name: uptimekuma
           image: louislam/uptime-kuma:2.1.0-beta-rootless.3
           ports:
-            - containerPort: 3001
+            - name: http
+              containerPort: 3001
 
           resources:
             requests:
@@ -39,6 +40,21 @@ spec:
 
           securityContext:
             allowPrivilegeEscalation: false
+
+          livenessProbe:
+            httpGet:
+              path: /
+              port: http
+            initialDelaySeconds: 30
+            periodSeconds: 30
+            failureThreshold: 3
+          readinessProbe:
+            httpGet:
+              path: /
+              port: http
+            initialDelaySeconds: 10
+            periodSeconds: 10
+            failureThreshold: 3
 
           volumeMounts:
             - name: uptimekuma-data

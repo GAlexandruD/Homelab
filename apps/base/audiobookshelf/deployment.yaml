@@ -24,7 +24,8 @@ spec:
             - name: PORT
               value: "8080" # Set the internal port to 8080 instead of 80.
           ports:
-            - containerPort: 8080 # Expose the 8080 port.
+            - name: http
+              containerPort: 8080 # Expose the 8080 port.
           resources:
             requests:
               cpu: 100m
@@ -41,6 +42,21 @@ spec:
 
           securityContext:
             allowPrivilegeEscalation: false
+
+          livenessProbe:
+            httpGet:
+              path: /healthcheck
+              port: http
+            initialDelaySeconds: 30
+            periodSeconds: 30
+            failureThreshold: 3
+          readinessProbe:
+            httpGet:
+              path: /healthcheck
+              port: http
+            initialDelaySeconds: 10
+            periodSeconds: 10
+            failureThreshold: 3
 
           volumeMounts:
             - name: audiobookshelf-config

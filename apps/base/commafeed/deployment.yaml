@@ -21,7 +21,8 @@ spec:
         - name: commafeed
           image: athou/commafeed:7.0.0-postgresql
           ports:
-            - containerPort: 8082
+            - name: http
+              containerPort: 8082
           
           resources:
             requests:
@@ -46,3 +47,18 @@ spec:
 
           securityContext:
             allowPrivilegeEscalation: false
+
+          livenessProbe:
+            httpGet:
+              path: /
+              port: http
+            initialDelaySeconds: 60
+            periodSeconds: 30
+            failureThreshold: 3
+          readinessProbe:
+            httpGet:
+              path: /
+              port: http
+            initialDelaySeconds: 30
+            periodSeconds: 10
+            failureThreshold: 3

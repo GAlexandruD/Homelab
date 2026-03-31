@@ -21,7 +21,8 @@ spec:
         - name: nextjs-on-docker
           image: docker.io/galexandrud/nextjs-on-docker:0.0.5
           ports:
-            - containerPort: 3000
+            - name: http
+              containerPort: 3000
 
           resources:
             requests:
@@ -39,6 +40,21 @@ spec:
 
           securityContext:
             allowPrivilegeEscalation: false
+
+          livenessProbe:
+            httpGet:
+              path: /
+              port: http
+            initialDelaySeconds: 30
+            periodSeconds: 30
+            failureThreshold: 3
+          readinessProbe:
+            httpGet:
+              path: /
+              port: http
+            initialDelaySeconds: 10
+            periodSeconds: 10
+            failureThreshold: 3
 
           # volumeMounts:
           #   # Don't need it as I don't save files.
