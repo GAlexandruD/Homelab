@@ -66,6 +66,10 @@ spec:
               mountPath: /var/run/s6
             - name: s6-lock
               mountPath: /etc/s6/.s6-svscan
+            - name: s6-nginx-event
+              mountPath: /etc/s6/nginx/event
+            - name: s6-php-fpm-event
+              mountPath: /etc/s6/php-fpm/event
             - name: wallabag-data
               mountPath: web/assets/images
             - name: wallabag-php-config
@@ -81,6 +85,10 @@ spec:
         - name: s6-run
           emptyDir: {}
         - name: s6-lock
+          emptyDir: {}
+        - name: s6-nginx-event
+          emptyDir: {}
+        - name: s6-php-fpm-event
           emptyDir: {}
         - name: wallabag-data
           persistentVolumeClaim:
