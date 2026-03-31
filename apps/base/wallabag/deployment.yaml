@@ -22,6 +22,9 @@ spec:
             - mkdir -p /var/run/s6 && chown 65534:65534 /var/run/s6
           securityContext:
             runAsUser: 0
+          volumeMounts:
+            - name: s6-run
+              mountPath: /var/run/s6
 
       containers:
         - name: wallabag
@@ -59,6 +62,8 @@ spec:
             allowPrivilegeEscalation: false
 
           volumeMounts:
+            - name: s6-run
+              mountPath: /var/run/s6
             - name: wallabag-data
               mountPath: web/assets/images
             - name: wallabag-php-config
@@ -71,6 +76,8 @@ spec:
               readOnly: true
 
       volumes:
+        - name: s6-run
+          emptyDir: {}
         - name: wallabag-data
           persistentVolumeClaim:
             claimName: wallabag-data-pvc
