@@ -22,7 +22,15 @@ spec:
           image: sissbruecker/linkding:1.45.0
           ports:
             - containerPort: 9090
-
+          
+          resources:
+            requests:
+              cpu: 10m
+              memory: 64Mi
+            limits:
+              cpu: 200m
+              memory: 256Mi
+          
           envFrom:
             #- configMapRef:
             #    name: linkding-configmap

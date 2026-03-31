@@ -22,7 +22,15 @@ spec:
           image: athou/commafeed:7.0.0-postgresql
           ports:
             - containerPort: 8082
-
+          
+          resources:
+            requests:
+              cpu: 100m
+              memory: 128Mi
+            limits:
+              cpu: 500m
+              memory: 512Mi
+              
           envFrom:
             - configMapRef:
                 name: commafeed-configmap

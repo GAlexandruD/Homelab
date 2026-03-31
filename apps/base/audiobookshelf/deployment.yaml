@@ -25,6 +25,13 @@ spec:
               value: "8080" # Set the internal port to 8080 instead of 80.
           ports:
             - containerPort: 8080 # Expose the 8080 port.
+          resources:
+            requests:
+              cpu: 100m
+              memory: 128Mi
+            limits:
+              cpu: 500m
+              memory: 512Mi
 
           envFrom:
             #- configMapRef:

@@ -37,6 +37,13 @@ spec:
             - name: http
               containerPort: 3000
               protocol: TCP
+          resources:
+            requests:
+              cpu: 10m
+              memory: 64Mi
+            limits:
+              cpu: 100m
+              memory: 128Mi
           securityContext:
             allowPrivilegeEscalation: false
             runAsNonRoot: true
