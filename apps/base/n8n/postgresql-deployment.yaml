@@ -45,13 +45,13 @@ spec:
 
           livenessProbe:
             exec:
-              command: ["pg_isready", "-U", "n8n"]
+              command: ["sh", "-c", "pg_isready -U $POSTGRES_USER"]
             initialDelaySeconds: 30
             periodSeconds: 30
             failureThreshold: 3
           readinessProbe:
             exec:
-              command: ["pg_isready", "-U", "n8n"]
+              command: ["sh", "-c", "pg_isready -U $POSTGRES_USER"]
             initialDelaySeconds: 10
             periodSeconds: 10
             failureThreshold: 3

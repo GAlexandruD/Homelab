@@ -47,6 +47,25 @@ spec:
             # runAsGroup: 65534 # GID for nobody
             allowPrivilegeEscalation: false
 
+          ports:
+            - name: http
+              containerPort: 80
+
+          livenessProbe:
+            httpGet:
+              path: /
+              port: http
+            initialDelaySeconds: 60
+            periodSeconds: 30
+            failureThreshold: 3
+          readinessProbe:
+            httpGet:
+              path: /
+              port: http
+            initialDelaySeconds: 30
+            periodSeconds: 10
+            failureThreshold: 3
+
           volumeMounts:
             - name: wallabag-data
               mountPath: web/assets/images
