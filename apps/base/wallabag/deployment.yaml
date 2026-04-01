@@ -78,11 +78,17 @@ spec:
           volumeMounts:
             - name: wallabag-data
               mountPath: web/assets/images
-
-
+            - name: app-config
+              mountPath: /var/www/wallabag/app/config
+            - name: tmp
+              mountPath: /tmp
 
       volumes:
         - name: wallabag-data
           persistentVolumeClaim:
             claimName: wallabag-data-pvc
+        - name: app-config
+          emptyDir: {}
+        - name: tmp
+          emptyDir: {}
 

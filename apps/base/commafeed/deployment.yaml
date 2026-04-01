@@ -55,6 +55,10 @@ spec:
               drop:
                 - ALL
 
+          volumeMounts:
+            - name: tmp
+              mountPath: /tmp
+
           livenessProbe:
             httpGet:
               path: /
@@ -69,3 +73,7 @@ spec:
             initialDelaySeconds: 30
             periodSeconds: 10
             failureThreshold: 3
+
+      volumes:
+        - name: tmp
+          emptyDir: {}

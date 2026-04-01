@@ -81,6 +81,9 @@ spec:
             - name: transmission-watch
               mountPath: /watch
 
+            - name: run
+              mountPath: /run
+
       volumes:
         - name: transmission-config
           persistentVolumeClaim:
@@ -93,4 +96,7 @@ spec:
         - name: transmission-watch
           persistentVolumeClaim:
             claimName: transmission-watch-pvc
+
+        - name: run
+          emptyDir: {}
 
