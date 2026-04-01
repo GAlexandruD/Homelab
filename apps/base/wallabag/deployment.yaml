@@ -12,10 +12,6 @@ spec:
       labels:
         app: wallabag
     spec:
-      securityContext:
-        fsGroup: 65534
-        runAsUser: 65534
-        runAsGroup: 65534
       containers:
         - name: wallabag
           image: wallabag/wallabag:2.6.14
@@ -47,14 +43,8 @@ spec:
                   key: password
 
           securityContext:
-            allowPrivilegeEscalation: false
-            runAsNonRoot: true
-            readOnlyRootFilesystem: true
             seccompProfile:
               type: "RuntimeDefault"
-            capabilities:
-              drop:
-                - ALL
 
           ports:
             - name: http
@@ -77,26 +67,10 @@ spec:
 
           volumeMounts:
             - name: wallabag-data
-              mountPath: web/assets/images
-            - name: app-config
-              mountPath: /var/www/wallabag/app/config
-            - name: tmp
-              mountPath: /tmp
-            - name: php-conf
-              mountPath: /etc/php81/conf.d
-            - name: var
-              mountPath: /var/www/wallabag/var
+              mountPath: /var/www/wallabag/web/assets/images
 
       volumes:
         - name: wallabag-data
           persistentVolumeClaim:
             claimName: wallabag-data-pvc
-        - name: app-config
-          emptyDir: {}
-        - name: tmp
-          emptyDir: {}
-        - name: php-conf
-          emptyDir: {}
-        - name: var
-          emptyDir: {}
 
