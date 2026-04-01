@@ -39,11 +39,11 @@ spec:
               protocol: TCP
           resources:
             requests:
-              cpu: 10m
-              memory: 64Mi
-            limits:
               cpu: 100m
               memory: 128Mi
+            limits:
+              cpu: 1000m
+              memory: 256Mi
           securityContext:
             allowPrivilegeEscalation: false
             runAsNonRoot: true
