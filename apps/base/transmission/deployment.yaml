@@ -49,16 +49,8 @@ spec:
             #    name: transmission-container-env
 
           securityContext:
-            allowPrivilegeEscalation: false
-            #runAsNonRoot: true
-            readOnlyRootFilesystem: true
             seccompProfile:
               type: "RuntimeDefault"
-            capabilities:
-              drop:
-                - ALL
-              add:
-                - CHOWN
 
           livenessProbe:
             tcpSocket:
@@ -83,8 +75,6 @@ spec:
             - name: transmission-watch
               mountPath: /watch
 
-            - name: run
-              mountPath: /run
 
       volumes:
         - name: transmission-config
@@ -99,6 +89,4 @@ spec:
           persistentVolumeClaim:
             claimName: transmission-watch-pvc
 
-        - name: run
-          emptyDir: {}
 
