@@ -57,6 +57,8 @@ spec:
             capabilities:
               drop:
                 - ALL
+              add:
+                - CHOWN
 
           livenessProbe:
             tcpSocket:
