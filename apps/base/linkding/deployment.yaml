@@ -12,11 +12,6 @@ spec:
       labels:
         app: linkding
     spec:
-      securityContext:
-        fsGroup: 33 # www-data group ID
-        runAsUser: 33 # www-data user ID
-        runAsGroup: 33 # www-data group ID
-
       containers:
         - name: linkding
           image: sissbruecker/linkding:1.45.0
@@ -40,7 +35,6 @@ spec:
 
           securityContext:
             allowPrivilegeEscalation: false
-            runAsNonRoot: true
             readOnlyRootFilesystem: true
             seccompProfile:
               type: "RuntimeDefault"
@@ -49,6 +43,9 @@ spec:
                 - ALL
               add:
                 - CHOWN
+                - SETUID
+                - SETGID
+                - FOWNER
 
           livenessProbe:
             httpGet:
