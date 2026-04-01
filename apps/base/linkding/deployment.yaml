@@ -35,7 +35,6 @@ spec:
 
           securityContext:
             allowPrivilegeEscalation: false
-            readOnlyRootFilesystem: true
             seccompProfile:
               type: "RuntimeDefault"
             capabilities:
@@ -65,12 +64,8 @@ spec:
           volumeMounts:
             - name: linkding-data
               mountPath: /etc/linkding/data
-            - name: tmp
-              mountPath: /tmp
 
       volumes:
         - name: linkding-data
           persistentVolumeClaim:
             claimName: linkding-data-pvc
-        - name: tmp
-          emptyDir: {}
