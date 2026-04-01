@@ -84,6 +84,10 @@ spec:
               mountPath: /tmp
             - name: php-conf
               mountPath: /etc/php81/conf.d
+            - name: var-cache
+              mountPath: /var/www/wallabag/var/cache
+            - name: var-logs
+              mountPath: /var/www/wallabag/var/logs
 
       volumes:
         - name: wallabag-data
@@ -94,5 +98,9 @@ spec:
         - name: tmp
           emptyDir: {}
         - name: php-conf
+          emptyDir: {}
+        - name: var-cache
+          emptyDir: {}
+        - name: var-logs
           emptyDir: {}
 
