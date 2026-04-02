@@ -35,8 +35,12 @@ spec:
           envFrom:
             - configMapRef:
                 name: metabase-configmap
-            - secretRef:
-                name: postgresql-secret
+          env:
+            - name: MB_DB_PASS
+              valueFrom:
+                secretKeyRef:
+                  name: postgresql-secret
+                  key: password
 
           securityContext:
             allowPrivilegeEscalation: false
