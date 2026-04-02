@@ -7,6 +7,7 @@ spec:
   interval: 1m0s
   dependsOn:
     - name: infrastructure-controllers
+    - name: infrastructure-configs
   retryInterval: 1m
   timeout: 5m
   sourceRef:
