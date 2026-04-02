@@ -41,6 +41,8 @@ spec:
                 secretKeyRef:
                   name: postgresql-secret
                   key: password
+            - name: JAVA_TOOL_OPTIONS
+              value: "-Xmx1g"
 
           securityContext:
             allowPrivilegeEscalation: false
@@ -56,14 +58,14 @@ spec:
             httpGet:
               path: /api/health
               port: http
-            initialDelaySeconds: 120
+            initialDelaySeconds: 300
             periodSeconds: 30
             failureThreshold: 3
           readinessProbe:
             httpGet:
               path: /api/health
               port: http
-            initialDelaySeconds: 90
+            initialDelaySeconds: 240
             periodSeconds: 10
             failureThreshold: 3
 
