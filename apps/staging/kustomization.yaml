@@ -5,6 +5,7 @@ resources:
   - commafeed
   - homepage
   - linkding
+  - metabase
   - n8n
   - nextjs-on-docker
   - transmission

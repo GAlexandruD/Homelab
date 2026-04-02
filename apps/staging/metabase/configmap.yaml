@@ -1,0 +1,12 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: metabase-configmap
+data:
+  MB_DB_TYPE: "postgres"
+  MB_DB_HOST: "postgresql"
+  MB_DB_PORT: "5432"
+  MB_DB_DBNAME: "metabase"
+  MB_DB_USER: "metabase"
+  MB_SITE_URL: "https://metabase-adstage.alexandrud.com"
+  MB_JETTY_PORT: "3000"

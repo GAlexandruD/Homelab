@@ -1,0 +1,77 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: postgresql
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: postgresql
+  template:
+    metadata:
+      labels:
+        app: postgresql
+    spec:
+      securityContext:
+        fsGroup: 999
+        runAsUser: 999
+        runAsGroup: 999
+      containers:
+        - name: postgresql
+          image: postgres:18
+          env:
+            - name: POSTGRES_DB
+              value: metabase
+            - name: PGDATA
+              value: /var/lib/postgresql/postgres18
+            - name: POSTGRES_USER
+              value: metabase
+            - name: POSTGRES_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: postgresql-secret
+                  key: password
+
+          ports:
+            - containerPort: 5432
+              name: postgresql
+
+          volumeMounts:
+            - name: postgresql-data
+              mountPath: /var/lib/postgresql
+            - name: tmp
+              mountPath: /tmp
+            - name: run
+              mountPath: /var/run/postgresql
+
+          securityContext:
+            allowPrivilegeEscalation: false
+            runAsNonRoot: true
+            readOnlyRootFilesystem: true
+            seccompProfile:
+              type: "RuntimeDefault"
+            capabilities:
+              drop:
+                - ALL
+
+          livenessProbe:
+            exec:
+              command: ["sh", "-c", "pg_isready -U $POSTGRES_USER"]
+            initialDelaySeconds: 30
+            periodSeconds: 30
+            failureThreshold: 3
+          readinessProbe:
+            exec:
+              command: ["sh", "-c", "pg_isready -U $POSTGRES_USER"]
+            initialDelaySeconds: 10
+            periodSeconds: 10
+            failureThreshold: 3
+
+      volumes:
+        - name: postgresql-data
+          persistentVolumeClaim:
+            claimName: postgresql-data-pvc
+        - name: tmp
+          emptyDir: {}
+        - name: run
+          emptyDir: {}

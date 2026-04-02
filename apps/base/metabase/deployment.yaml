@@ -1,0 +1,72 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: metabase
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: metabase
+  template:
+    metadata:
+      labels:
+        app: metabase
+    spec:
+      securityContext:
+        fsGroup: 1000
+        runAsUser: 1000
+        runAsGroup: 1000
+
+      containers:
+        - name: metabase
+          image: metabase/metabase:v0.58.11
+          ports:
+            - name: http
+              containerPort: 3000
+
+          resources:
+            requests:
+              cpu: 200m
+              memory: 512Mi
+            limits:
+              cpu: 1000m
+              memory: 1536Mi
+
+          envFrom:
+            - configMapRef:
+                name: metabase-configmap
+            - secretRef:
+                name: postgresql-secret
+
+          securityContext:
+            allowPrivilegeEscalation: false
+            runAsNonRoot: true
+            readOnlyRootFilesystem: true
+            seccompProfile:
+              type: "RuntimeDefault"
+            capabilities:
+              drop:
+                - ALL
+
+          livenessProbe:
+            httpGet:
+              path: /api/health
+              port: http
+            initialDelaySeconds: 120
+            periodSeconds: 30
+            failureThreshold: 3
+          readinessProbe:
+            httpGet:
+              path: /api/health
+              port: http
+            initialDelaySeconds: 90
+            periodSeconds: 10
+            failureThreshold: 3
+
+          volumeMounts:
+            - name: tmp
+              mountPath: /tmp
+
+      volumes:
+        - name: tmp
+          emptyDir: {}
