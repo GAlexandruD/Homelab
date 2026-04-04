@@ -15,6 +15,8 @@ spec:
         app: crictl-prune-daemonset
     spec:
       hostPID: true
+      nodeSelector:
+        node.kubernetes.io/instance-type: k3s
       containers:
         - name: cleanup
           image: alpine:3.23
@@ -22,7 +24,11 @@ spec:
             - /bin/sh
             - -c
             - |
-              apk add --no-cache cri-tools
+              echo "Installing cri-tools..."
+              until apk add --no-cache cri-tools; do
+                echo "Package install failed, retrying in 30s..."
+                sleep 30
+              done
               echo 'runtime-endpoint: unix:///run/k3s/containerd/containerd.sock
               image-endpoint: unix:///run/k3s/containerd/containerd.sock
               timeout: 10
