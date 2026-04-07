@@ -19,7 +19,7 @@ spec:
               args:
                 - |
                   set -e
-                  apt-get update -qq && apt-get install -y --no-install-recommends git
+                  apt-get update -qq && apt-get install -y --no-install-recommends git ca-certificates
                   git clone https://github.com/GAlexandruD/quartz /workspace
                   cd /workspace
                   npm ci
