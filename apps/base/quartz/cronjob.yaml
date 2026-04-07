@@ -12,6 +12,17 @@ spec:
       template:
         spec:
           restartPolicy: OnFailure
+          initContainers:
+            - name: git-clone
+              image: bitnami/git:latest
+              command: ["/bin/sh", "-c"]
+              args:
+                - |
+                  set -e
+                  git clone https://github.com/GAlexandruD/quartz /workspace
+              volumeMounts:
+                - name: workspace
+                  mountPath: /workspace
           containers:
             - name: builder
               image: node:lts-slim
@@ -19,13 +30,24 @@ spec:
               args:
                 - |
                   set -e
-                  apt-get update -qq && apt-get install -y --no-install-recommends git ca-certificates
-                  git clone https://github.com/GAlexandruD/quartz /workspace
                   cd /workspace
-                  npm ci
+
+                  LOCKFILE_HASH=$(md5sum package-lock.json | cut -d' ' -f1)
+                  CACHED_HASH=$(cat /npm-cache/.lockfile-hash 2>/dev/null || echo "none")
+
+                  if [ "$LOCKFILE_HASH" != "$CACHED_HASH" ]; then
+                    echo "package-lock.json changed, running npm ci..."
+                    npm ci --cache /npm-cache/npm
+                    echo "$LOCKFILE_HASH" > /npm-cache/.lockfile-hash
+                  else
+                    echo "package-lock.json unchanged, restoring node_modules from cache..."
+                    cp -r /npm-cache/node_modules /workspace/node_modules
+                  fi
+
                   npx quartz build
                   rm -rf /output/*
                   cp -r /workspace/public/. /output/
+                  cp -r /workspace/node_modules /npm-cache/node_modules
               resources:
                 requests:
                   cpu: 200m
@@ -34,9 +56,18 @@ spec:
                   cpu: 1000m
                   memory: 1Gi
               volumeMounts:
+                - name: workspace
+                  mountPath: /workspace
                 - name: output
                   mountPath: /output
+                - name: npm-cache
+                  mountPath: /npm-cache
           volumes:
+            - name: workspace
+              emptyDir: {}
             - name: output
               persistentVolumeClaim:
                 claimName: quartz-output
+            - name: npm-cache
+              persistentVolumeClaim:
+                claimName: quartz-npm-cache
