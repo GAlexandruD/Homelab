@@ -14,6 +14,7 @@ My personal k8s cluster running on a single bare-metal node, managed entirely th
 | n8n | Workflow automation |
 | Transmission | BitTorrent client |
 | Uptime Kuma | Uptime monitoring |
+| Quartz | Personal blog |
 | Wallabag | Read-it-later |
 
 Plus kube-prometheus-stack for monitoring (Prometheus + Grafana) and Renovate running as an in-cluster CronJob for dependency updates.

@@ -1,0 +1,42 @@
+apiVersion: batch/v1
+kind: CronJob
+metadata:
+  name: quartz-build
+spec:
+  schedule: "0 4 * * *"
+  concurrencyPolicy: Forbid
+  successfulJobsHistoryLimit: 2
+  failedJobsHistoryLimit: 2
+  jobTemplate:
+    spec:
+      template:
+        spec:
+          restartPolicy: OnFailure
+          containers:
+            - name: builder
+              image: node:lts-alpine
+              command: ["/bin/sh", "-c"]
+              args:
+                - |
+                  set -e
+                  apk add --no-cache git
+                  git clone https://github.com/GAlexandruD/quartz /workspace
+                  cd /workspace
+                  npm ci
+                  npx quartz build
+                  rm -rf /output/*
+                  cp -r /workspace/public/. /output/
+              resources:
+                requests:
+                  cpu: 200m
+                  memory: 512Mi
+                limits:
+                  cpu: 1000m
+                  memory: 1Gi
+              volumeMounts:
+                - name: output
+                  mountPath: /output
+          volumes:
+            - name: output
+              persistentVolumeClaim:
+                claimName: quartz-output
