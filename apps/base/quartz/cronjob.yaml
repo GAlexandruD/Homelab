@@ -35,19 +35,19 @@ spec:
                   LOCKFILE_HASH=$(md5sum package-lock.json | cut -d' ' -f1)
                   CACHED_HASH=$(cat /npm-cache/.lockfile-hash 2>/dev/null || echo "none")
 
-                  if [ "$LOCKFILE_HASH" != "$CACHED_HASH" ]; then
-                    echo "package-lock.json changed, running npm ci..."
-                    npm ci --cache /npm-cache/npm
+                  if [ "$LOCKFILE_HASH" != "$CACHED_HASH" ] || [ ! -d "/npm-cache/node_modules" ]; then
+                    echo "Running npm ci..."
+                    npm ci
+                    cp -r /workspace/node_modules /npm-cache/node_modules
                     echo "$LOCKFILE_HASH" > /npm-cache/.lockfile-hash
                   else
-                    echo "package-lock.json unchanged, restoring node_modules from cache..."
+                    echo "Restoring node_modules from cache..."
                     cp -r /npm-cache/node_modules /workspace/node_modules
                   fi
 
                   npx quartz build
                   rm -rf /output/*
                   cp -r /workspace/public/. /output/
-                  cp -r /workspace/node_modules /npm-cache/node_modules
               resources:
                 requests:
                   cpu: 200m
