@@ -25,7 +25,7 @@ spec:
                   mountPath: /workspace
           containers:
             - name: builder
-              image: node:22-slim
+              image: node:25-slim
               command: ["/bin/sh", "-c"]
               args:
                 - |
