@@ -14,12 +14,12 @@ spec:
           restartPolicy: OnFailure
           containers:
             - name: builder
-              image: node:lts-alpine
+              image: node:lts-slim
               command: ["/bin/sh", "-c"]
               args:
                 - |
                   set -e
-                  apk add --no-cache git
+                  apt-get update -qq && apt-get install -y --no-install-recommends git
                   git clone https://github.com/GAlexandruD/quartz /workspace
                   cd /workspace
                   npm ci

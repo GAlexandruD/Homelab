@@ -82,6 +82,24 @@ Some images are incompatible with this because their entrypoints expect to run a
 
 Charts that install CRDs need two separate Flux Kustomizations with a `dependsOn` between them. One for the HelmRelease (which creates the CRDs) and one for any CRD-dependent resources like `ClusterSecretStore`. Putting both in the same Kustomization causes dry-run failures because Flux validates all resources in a single pass before any are applied.
 
+## Node configuration
+
+### inotify limits
+
+Quartz (and Flux itself) use fsnotify to watch files. On a node running many pods the default inotify limits are too low and builds fail with `failed to create fsnotify watcher: too many open files`. Fix:
+
+```bash
+cat >> /etc/sysctl.d/99-inotify.conf <<EOF
+fs.inotify.max_user_instances=512
+fs.inotify.max_user_watches=524288
+EOF
+sysctl -p /etc/sysctl.d/99-inotify.conf
+```
+
+### Disk space — container image pruning
+
+k3s does not garbage-collect unused container images automatically. Over time pulled images accumulate and fill the disk. `infrastructure/daemonsets/` runs a DaemonSet (`crictl-prune-daemonset`) on every k3s node that calls `crictl rmi --prune` once every 24 hours to remove images not referenced by any container. It connects to the k3s containerd socket at `/run/k3s/containerd/containerd.sock`. Failures are logged to stderr but do not restart the pod — check with `kubectl logs -n kube-system <crictl-pod>` if you suspect a prune is not running.
+
 ## TODO:
 
 - Backups
