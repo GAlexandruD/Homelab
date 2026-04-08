@@ -19,7 +19,7 @@ spec:
               args:
                 - |
                   set -e
-                  git clone https://github.com/GAlexandruD/quartz /workspace
+                  cd /workspace && git clone https://github.com/GAlexandruD/quartz .
               volumeMounts:
                 - name: workspace
                   mountPath: /workspace
