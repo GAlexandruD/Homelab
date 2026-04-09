@@ -10,3 +10,18 @@ reclaimPolicy: Retain
 volumeBindingMode: Immediate
 mountOptions:
   - nfsvers=4.1
+---
+# For images that run chown as root on startup (e.g. linuxserver.io).
+# NFSv3 uses numeric UIDs directly, so no_root_squash works as expected.
+apiVersion: storage.k8s.io/v1
+kind: StorageClass
+metadata:
+  name: nfs-csi-v3
+provisioner: nfs.csi.k8s.io
+parameters:
+  server: 192.168.1.14
+  share: /mnt/WD1TB/nfs/k8s
+reclaimPolicy: Retain
+volumeBindingMode: Immediate
+mountOptions:
+  - nfsvers=3
