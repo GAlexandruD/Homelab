@@ -10,6 +10,10 @@ data:
     # https://gethomepage.dev/configs/services/
 
     - adstage:
+        - Quartz:
+            href: https://blog-adstage.alexandrud.com/
+            description: Blog running on Quartz
+            icon: blogger
         - N8n:
             href: https://n8n-adstage.alexandrud.com/
             description: Great automations
@@ -19,9 +23,8 @@ data:
             description: Bookmarks
             icon: linkding
         - Wallabag:
-            #href: https://wallabag-adstage.alexandrud.com/
-            #description: Read later.
-            description: NOT INSTALLED YET.
+            href: https://wallabag-adstage.alexandrud.com/
+            description: Read later.
             icon: wallabag
         - Audiobookshelf:
             href: https://audiobookshelf-adstage.alexandrud.com/
@@ -33,8 +36,12 @@ data:
             icon: commafeed
         - NextJS-App:
             href: https://nextjs-on-docker-adstage.alexandrud.com/
-            description: RSS feed.
+            description: A NextJS app.
             icon: nextjs
+        - Metabase:
+            href: https://nextjs-on-docker-adstage.alexandrud.com/
+            description:  Query, visualize, and analyze data.
+            icon: metabase
 
     - Monitoring:
         - Adstage - UptimeKuma:
