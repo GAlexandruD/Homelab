@@ -24,5 +24,3 @@ spec:
     ipam:
       mode: kubernetes
     kubeProxyReplacement: false
-    bpf:
-      masquerade: true
