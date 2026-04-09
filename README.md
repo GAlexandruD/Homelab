@@ -21,10 +21,13 @@ Plus kube-prometheus-stack for monitoring (Prometheus + Grafana) and Renovate ru
 
 ## Stack
 
-- **Kubernetes** - k3s on a single Ubuntu 22.04 node (`adstage`)
+- **Kubernetes** - k3s, two single-node clusters:
+  - `adstage` — Ubuntu 22.04, main workload cluster
+  - `maxipi` — Ubuntu 24.04, also serves as NFS server; uses Calico for CNI + NetworkPolicy
 - **GitOps** - Flux CD v2 with Kustomize base/overlay pattern
 - **Ingress** - Traefik + Cloudflare Tunnels, no ports exposed on the host
 - **Secrets** - SOPS/Age for existing apps; External Secrets Operator + Infisical for new apps
+- **Storage** - CSI Driver NFS on maxipi; StorageClass `nfs-csi` backed by `/srv/nfs/k8s` on the node
 - **Monitoring** - kube-prometheus-stack (Prometheus + Grafana); alerting beyond kube-state-metrics defaults is still a work in progress
 
 ## Repo layout
@@ -99,6 +102,21 @@ sysctl -p /etc/sysctl.d/99-inotify.conf
 ### Disk space — container image pruning
 
 k3s does not garbage-collect unused container images automatically. Over time pulled images accumulate and fill the disk. `infrastructure/daemonsets/` runs a DaemonSet (`crictl-prune-daemonset`) on every k3s node that calls `crictl rmi --prune` once every 24 hours to remove images not referenced by any container. It connects to the k3s containerd socket at `/run/k3s/containerd/containerd.sock`. Failures are logged to stderr but do not restart the pod — check with `kubectl logs -n kube-system <crictl-pod>` if you suspect a prune is not running.
+
+### NFS server (maxipi)
+
+maxipi doubles as the NFS server for its own cluster. One-time host setup:
+
+```bash
+apt install nfs-kernel-server
+mkdir -p /srv/nfs/k8s
+chmod 777 /srv/nfs/k8s
+echo '/srv/nfs/k8s *(rw,sync,no_subtree_check,no_root_squash)' >> /etc/exports
+exportfs -rav
+systemctl enable --now nfs-server
+```
+
+The CSI Driver NFS Helm chart is installed via Flux (`infrastructure/controllers/maxipi/nfs-csi/`). The `StorageClass` (`nfs-csi`, set as default) lives in `infrastructure/configs/maxipi/nfs-csi/storageclass.yaml`, pointing at `192.168.1.14`.
 
 ## TODO:
 
