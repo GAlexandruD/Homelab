@@ -27,7 +27,7 @@ Plus kube-prometheus-stack for monitoring (Prometheus + Grafana) and Renovate ru
 - **GitOps** - Flux CD v2 with Kustomize base/overlay pattern
 - **Ingress** - Traefik + Cloudflare Tunnels, no ports exposed on the host
 - **Secrets** - SOPS/Age for existing apps; External Secrets Operator + Infisical for new apps
-- **Storage** - CSI Driver NFS on maxipi; StorageClass `nfs-csi` backed by `/srv/nfs/k8s` on the node
+- **Storage** - CSI Driver NFS on maxipi; StorageClass `nfs-csi` backed by `/mnt/WD1TB/nfs/k8s` on the node
 - **Monitoring** - kube-prometheus-stack (Prometheus + Grafana); alerting beyond kube-state-metrics defaults is still a work in progress
 
 ## Repo layout
@@ -109,10 +109,10 @@ maxipi doubles as the NFS server for its own cluster. One-time host setup:
 
 ```bash
 apt install nfs-kernel-server
-mkdir -p /srv/nfs/k8s
-chown nobody:nogroup /srv/nfs/k8s
-chmod 755 /srv/nfs/k8s
-echo '/srv/nfs/k8s *(rw,sync,no_subtree_check,no_root_squash)' >> /etc/exports
+mkdir -p /mnt/WD1TB/nfs/k8s
+chown nobody:nogroup /mnt/WD1TB/nfs/k8s
+chmod 755 /mnt/WD1TB/nfs/k8s
+echo '/mnt/WD1TB/nfs/k8s 192.168.1.14(rw,sync,no_subtree_check,no_root_squash) 10.42.0.0/16(rw,sync,no_subtree_check,no_root_squash)' >> /etc/exports
 exportfs -rav
 systemctl enable --now nfs-server
 ```
