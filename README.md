@@ -110,7 +110,8 @@ maxipi doubles as the NFS server for its own cluster. One-time host setup:
 ```bash
 apt install nfs-kernel-server
 mkdir -p /srv/nfs/k8s
-chmod 777 /srv/nfs/k8s
+chown nobody:nogroup /srv/nfs/k8s
+chmod 755 /srv/nfs/k8s
 echo '/srv/nfs/k8s *(rw,sync,no_subtree_check,no_root_squash)' >> /etc/exports
 exportfs -rav
 systemctl enable --now nfs-server
