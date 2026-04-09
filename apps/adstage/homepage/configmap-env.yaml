@@ -39,7 +39,7 @@ data:
             description: A NextJS app.
             icon: nextjs
         - Metabase:
-            href: https://nextjs-on-docker-adstage.alexandrud.com/
+            href: https://metabase-adstage.alexandrud.com/
             description:  Query, visualize, and analyze data.
             icon: metabase
 
