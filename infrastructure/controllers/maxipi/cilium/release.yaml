@@ -24,7 +24,5 @@ spec:
     ipam:
       mode: kubernetes
     kubeProxyReplacement: false
-    k8sServiceHost: kubernetes.default.svc.cluster.local
-    k8sServicePort: 443
     bpf:
       masquerade: true
