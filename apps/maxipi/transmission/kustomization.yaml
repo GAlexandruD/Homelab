@@ -1,0 +1,48 @@
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+namespace: transmission
+resources:
+  - ../../_base/transmission
+patches:
+  - patch: |
+      apiVersion: apps/v1
+      kind: Deployment
+      metadata:
+        name: transmission
+      spec:
+        template:
+          spec:
+            containers:
+              - name: transmission
+                ports:
+                  - containerPort: 9091
+                    hostPort: 9091
+                    name: web
+                  - containerPort: 51413
+                    hostPort: 51413
+                    name: tcp
+                  - containerPort: 51413
+                    hostPort: 51413
+                    protocol: UDP
+                    name: udp
+  - patch: |
+      apiVersion: v1
+      kind: PersistentVolumeClaim
+      metadata:
+        name: transmission-config-pvc
+      spec:
+        storageClassName: nfs-csi
+  - patch: |
+      apiVersion: v1
+      kind: PersistentVolumeClaim
+      metadata:
+        name: transmission-downloads-pvc
+      spec:
+        storageClassName: nfs-csi
+  - patch: |
+      apiVersion: v1
+      kind: PersistentVolumeClaim
+      metadata:
+        name: transmission-watch-pvc
+      spec:
+        storageClassName: nfs-csi
