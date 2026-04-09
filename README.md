@@ -22,7 +22,7 @@ Plus kube-prometheus-stack for monitoring (Prometheus + Grafana) and Renovate ru
 ## Stack
 
 - **Kubernetes** - k3s on a single Ubuntu 22.04 node (`adstage`)
-- **GitOps** - Flux CD v2 with Kustomize base/staging overlays
+- **GitOps** - Flux CD v2 with Kustomize base/overlay pattern
 - **Ingress** - Traefik + Cloudflare Tunnels, no ports exposed on the host
 - **Secrets** - SOPS/Age for existing apps; External Secrets Operator + Infisical for new apps
 - **Monitoring** - kube-prometheus-stack (Prometheus + Grafana); alerting beyond kube-state-metrics defaults is still a work in progress
@@ -31,17 +31,17 @@ Plus kube-prometheus-stack for monitoring (Prometheus + Grafana) and Renovate ru
 
 ```
 apps/
-  base/<app>/        # Deployment, Service, PVC
-  staging/<app>/     # Cloudflare tunnel, ingress, secrets
+  _base/<app>/       # Deployment, Service, PVC
+  adstage/<app>/     # Cloudflare tunnel, ingress, secrets
 infrastructure/
   controllers/       # Helm chart installations (ESO, etc.)
   configs/           # CRD-dependent resources (ClusterSecretStore, etc.)
   daemonsets/        # Node-level housekeeping
 monitoring/          # kube-prometheus-stack HelmRelease
-clusters/staging/    # Flux entry point - Kustomization objects
+clusters/adstage/    # Flux entry point - Kustomization objects
 ```
 
-Every app follows the same base/staging split. Base has the Kubernetes resources. Staging has environment-specific config: Cloudflare tunnel credentials, ingress rules, and secret references. Nothing environment-specific leaks into base.
+Every app follows the same base/overlay split. `_base` has the Kubernetes resources. `adstage` has environment-specific config: Cloudflare tunnel credentials, ingress rules, and secret references.
 
 ## Secrets
 
@@ -72,9 +72,9 @@ Some images are incompatible with this because their entrypoints expect to run a
 
 ## Adding an app
 
-1. Create `apps/base/<app>/` - namespace, deployment, service, PVC
-2. Create `apps/staging/<app>/` - `cloudflare.yaml`, `ingress.yaml`, `externalsecret.yaml`, `configmap.yaml`
-3. Register in `apps/staging/kustomization.yaml`
+1. Create `apps/_base/<app>/` - namespace, deployment, service, PVC
+2. Create `apps/adstage/<app>/` - `cloudflare.yaml`, `ingress.yaml`, `externalsecret.yaml`, `configmap.yaml`
+3. Register in `apps/adstage/kustomization.yaml`
 4. Create a Cloudflare tunnel, store the credentials JSON in Infisical as `CF_TUNNEL_<APP>_CREDENTIALS`
 5. Add app secrets to Infisical under `/<app>/`
 

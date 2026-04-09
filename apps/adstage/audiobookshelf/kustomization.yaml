@@ -2,7 +2,7 @@ apiVersion: kustomize.config.k8s.io/v1beta1
 kind: Kustomization
 namespace: audiobookshelf
 resources:
-  - ../../base/audiobookshelf
+  - ../../_base/audiobookshelf
   - cloudflare.yaml
   - audiobookshelf-container-env-secret.yaml
   - cf-tunnel-audiobookshelf-adstage.yaml
