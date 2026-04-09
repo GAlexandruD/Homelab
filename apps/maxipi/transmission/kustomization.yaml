@@ -4,27 +4,25 @@ namespace: transmission
 resources:
   - ../../_base/transmission
 patches:
-  - patch: |
-      apiVersion: apps/v1
+  - target:
       kind: Deployment
-      metadata:
-        name: transmission
-      spec:
-        template:
-          spec:
-            containers:
-              - name: transmission
-                ports:
-                  - containerPort: 9091
-                    hostPort: 9091
-                    name: web
-                  - containerPort: 51413
-                    hostPort: 51413
-                    name: tcp
-                  - containerPort: 51413
-                    hostPort: 51413
-                    protocol: UDP
-                    name: udp
+      name: transmission
+    patch: |
+      - op: replace
+        path: /spec/template/spec/containers/0/ports
+        value:
+          - containerPort: 9091
+            hostPort: 9091
+            name: web
+            protocol: TCP
+          - containerPort: 51413
+            hostPort: 51413
+            name: tcp
+            protocol: TCP
+          - containerPort: 51413
+            hostPort: 51413
+            name: udp
+            protocol: UDP
   - patch: |
       apiVersion: v1
       kind: PersistentVolumeClaim
