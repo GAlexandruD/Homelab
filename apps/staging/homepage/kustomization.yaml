@@ -3,6 +3,7 @@ kind: Kustomization
 namespace: homepage
 resources:
   - ../../base/homepage/
+  - configmap-env.yaml
   - ingress.yaml
   - cloudflare.yaml
   - cf-tunnel-homepage-adstage.yaml
