@@ -100,12 +100,16 @@ spec:
           #     subPath: widgets.yaml
           #   - mountPath: /app/config/logs
           #     name: logs
+            - name: homepage-env-configmap
+              mountPath: /app/config/services.yaml
+              subPath: service.yaml
+              readOnly: true
       volumes:
         - name: homepage-config
           persistentVolumeClaim:
             claimName: homepage-config
         - name: logs
           emptyDir: {}
-        # - name: config-volume
-        #   configMap:
-        #     name: homepage-env-configmap
+        - name: homepage-env-configmap
+          configMap:
+            name: homepage-env-configmap
