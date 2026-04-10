@@ -31,6 +31,9 @@ spec:
           kind: PrometheusRule
   values:
     grafana:
+      persistence:
+        enabled: true
+        size: 1Gi
       admin:
         existingSecret: grafana-admin-secret
         userKey: adminUser
