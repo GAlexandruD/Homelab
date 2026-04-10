@@ -27,24 +27,3 @@ patches:
             hostPort: 51413
             name: udp
             protocol: UDP
-  - patch: |
-      apiVersion: v1
-      kind: PersistentVolumeClaim
-      metadata:
-        name: transmission-config-pvc
-      spec:
-        storageClassName: nfs-csi-v3
-  - patch: |
-      apiVersion: v1
-      kind: PersistentVolumeClaim
-      metadata:
-        name: transmission-downloads-pvc
-      spec:
-        storageClassName: nfs-csi-v3
-  - patch: |
-      apiVersion: v1
-      kind: PersistentVolumeClaim
-      metadata:
-        name: transmission-watch-pvc
-      spec:
-        storageClassName: nfs-csi-v3

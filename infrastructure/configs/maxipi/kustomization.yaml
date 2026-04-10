@@ -4,3 +4,4 @@ resources:
   - calico
   - external-secrets
   - nfs-csi
+  - storage
