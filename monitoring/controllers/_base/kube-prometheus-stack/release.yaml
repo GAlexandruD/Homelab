@@ -7,6 +7,7 @@ spec:
   interval: 30m
   chart:
     spec:
+      # renovate: datasource=helm registryUrl=https://prometheus-community.github.io/helm-charts
       chart: kube-prometheus-stack
       version: "79.11.0"
 

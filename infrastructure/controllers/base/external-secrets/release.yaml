@@ -7,6 +7,7 @@ spec:
   interval: 30m
   chart:
     spec:
+      # renovate: datasource=helm registryUrl=https://charts.external-secrets.io
       chart: external-secrets
       version: "2.2.0"
       sourceRef:
