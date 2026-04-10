@@ -1,6 +1,27 @@
 apiVersion: kustomize.config.k8s.io/v1beta1
 kind: Kustomization
-namespace: monitoring 
+namespace: monitoring
 resources:
-  - ../../_base/kube-prometheus-stack/
- 
+  - ../../_base/kube-prometheus-stack
+  - grafana-admin-secret.yaml
+patches:
+  - patch: |
+      apiVersion: helm.toolkit.fluxcd.io/v2
+      kind: HelmRelease
+      metadata:
+        name: kube-prometheus-stack
+      spec:
+        values:
+          grafana:
+            grafana.ini:
+              server:
+                root_url: https://grafana-adstage.alexandrud.com
+            ingress:
+              enabled: true
+              ingressClassName: traefik
+              hosts:
+                - grafana-adstage.alexandrud.com
+              tls:
+                - secretName: grafana-tls-secret
+                  hosts:
+                    - grafana-adstage.alexandrud.com
