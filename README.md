@@ -1,8 +1,10 @@
 # Homelab
 
-My personal k8s cluster running on a single bare-metal node, managed entirely through GitOps with Flux CD. Everything (apps, infrastructure, secret references) is declarative so if the node gets wiped, `flux bootstrap` and a few manual steps will bring it back.
+My personal k8s homelab running two clusters, managed entirely through GitOps with Flux CD. Everything (apps, infrastructure, secret references) is declarative so if a node gets wiped, `flux bootstrap` and a few manual steps will bring it back.
 
 ## What's running
+
+### adstage (staging)
 
 | App | Purpose |
 |-----|---------|
@@ -19,16 +21,24 @@ My personal k8s cluster running on a single bare-metal node, managed entirely th
 
 Plus kube-prometheus-stack for monitoring (Prometheus + Grafana) and Renovate running as an in-cluster CronJob for dependency updates.
 
+### maxipi (production)
+
+| App | Purpose |
+|-----|---------|
+| Transmission | BitTorrent client |
+
+Plus kube-prometheus-stack for monitoring (Prometheus + Grafana).
+
 ## Stack
 
 - **Kubernetes** - k3s, two single-node clusters:
-  - `adstage` — Ubuntu 22.04, main workload cluster
-  - `maxipi` — Ubuntu 24.04, also serves as NFS server; uses Calico for CNI + NetworkPolicy
+  - `adstage` - Ubuntu on AMD A4-6210, staging cluster for testing new images before promoting to production
+  - `maxipi` - Ubuntu on Celeron J3455, production cluster; also serves as NFS server; uses Calico for CNI + NetworkPolicy
 - **GitOps** - Flux CD v2 with Kustomize base/overlay pattern
-- **Ingress** - Traefik + Cloudflare Tunnels, no ports exposed on the host
+- **Ingress** - Traefik + Cloudflare Tunnels, no ports exposed on the host (adstage); hostPort for local network access (maxipi)
 - **Secrets** - SOPS/Age for existing apps; External Secrets Operator + Infisical for new apps
-- **Storage** - CSI Driver NFS on maxipi; StorageClass `nfs-csi` backed by `/mnt/WD1TB/nfs/k8s` on the node
-- **Monitoring** - kube-prometheus-stack (Prometheus + Grafana); alerting beyond kube-state-metrics defaults is still a work in progress
+- **Storage** - unified `standard` StorageClass across both clusters: `rancher.io/local-path` on adstage, `nfs.csi.k8s.io` (NFSv3) on maxipi backed by `/mnt/WD1TB/nfs/k8s`; `nfs-csi` (NFSv4.1) available on maxipi for images without chown requirements
+- **Monitoring** - kube-prometheus-stack (Prometheus + Grafana) on both clusters
 
 ## Repo layout
 
@@ -36,20 +46,27 @@ Plus kube-prometheus-stack for monitoring (Prometheus + Grafana) and Renovate ru
 apps/
   _base/<app>/       # Deployment, Service, PVC
   adstage/<app>/     # Cloudflare tunnel, ingress, secrets
+  maxipi/<app>/      # hostPort, cluster-specific patches
 infrastructure/
-  controllers/       # Helm chart installations (ESO, etc.)
-  configs/           # CRD-dependent resources (ClusterSecretStore, etc.)
+  controllers/
+    base/<chart>/    # HelmRepository + HelmRelease (adstage shared base)
+    adstage/<chart>/ # adstage overlay
+    maxipi/<chart>/  # maxipi-specific controllers (calico, nfs-csi, eso)
+  configs/
+    adstage/<chart>/ # CRD-dependent resources (ClusterSecretStore, StorageClass, etc.)
+    maxipi/<chart>/  # maxipi CRD-dependent resources
   daemonsets/        # Node-level housekeeping
 monitoring/          # kube-prometheus-stack HelmRelease
 clusters/adstage/    # Flux entry point - Kustomization objects
+clusters/maxipi/     # Flux entry point - Kustomization objects
 ```
 
-Every app follows the same base/overlay split. `_base` has the Kubernetes resources. `adstage` has environment-specific config: Cloudflare tunnel credentials, ingress rules, and secret references.
+Every app follows the same base/overlay split. `_base` has the Kubernetes resources. Cluster overlays have environment-specific config: Cloudflare tunnel credentials, ingress rules, secret references, and cluster-specific patches.
 
 ## Secrets
 
-- I started with SOPS-encrypted secrets committed to git, decrypted by Flux at apply time via an Age key.
-- New apps pull secrets from Infisical through ESO. One `ClusterSecretStore` pointing at the Infisical project, and per-app `ExternalSecret` resources referencing paths like `/metabase/METABASE_DB_PASSWORD`.
+- Existing apps use SOPS-encrypted secrets committed to git, decrypted by Flux at apply time via an Age key.
+- New apps pull secrets from Infisical through ESO. One `ClusterSecretStore` pointing at the Infisical project per cluster, and per-app `ExternalSecret` resources referencing paths like `/metabase/METABASE_DB_PASSWORD`.
 
 The only secret that lives in the cluster as a manually applied Kubernetes Secret is the Infisical machine identity credential. Everything else is either encrypted in git or fetched from Infisical at runtime.
 
@@ -75,11 +92,13 @@ Some images are incompatible with this because their entrypoints expect to run a
 
 ## Adding an app
 
-1. Create `apps/_base/<app>/` - namespace, deployment, service, PVC
+1. Create `apps/_base/<app>/` - namespace, deployment, service, PVC (use `storageClassName: standard`)
 2. Create `apps/adstage/<app>/` - `cloudflare.yaml`, `ingress.yaml`, `externalsecret.yaml`, `configmap.yaml`
 3. Register in `apps/adstage/kustomization.yaml`
 4. Create a Cloudflare tunnel, store the credentials JSON in Infisical as `CF_TUNNEL_<APP>_CREDENTIALS`
 5. Add app secrets to Infisical under `/<app>/`
+
+For maxipi, create `apps/maxipi/<app>/` with cluster-specific patches (hostPort, storage overrides if needed) and register in `apps/maxipi/kustomization.yaml`.
 
 ## Adding a Helm chart
 
@@ -99,9 +118,9 @@ EOF
 sysctl -p /etc/sysctl.d/99-inotify.conf
 ```
 
-### Disk space — container image pruning
+### Disk space - container image pruning
 
-k3s does not garbage-collect unused container images automatically. Over time pulled images accumulate and fill the disk. `infrastructure/daemonsets/` runs a DaemonSet (`crictl-prune-daemonset`) on every k3s node that calls `crictl rmi --prune` once every 24 hours to remove images not referenced by any container. It connects to the k3s containerd socket at `/run/k3s/containerd/containerd.sock`. Failures are logged to stderr but do not restart the pod — check with `kubectl logs -n kube-system <crictl-pod>` if you suspect a prune is not running.
+k3s does not garbage-collect unused container images automatically. Over time pulled images accumulate and fill the disk. `infrastructure/daemonsets/` runs a DaemonSet (`crictl-prune-daemonset`) on every k3s node that calls `crictl rmi --prune` once every 24 hours to remove images not referenced by any container. It connects to the k3s containerd socket at `/run/k3s/containerd/containerd.sock`. Failures are logged to stderr but do not restart the pod - check with `kubectl logs -n kube-system <crictl-pod>` if you suspect a prune is not running.
 
 ### NFS server (maxipi)
 
@@ -117,25 +136,29 @@ exportfs -rav
 systemctl enable --now nfs-server
 ```
 
-The CSI Driver NFS Helm chart is installed via Flux (`infrastructure/controllers/maxipi/nfs-csi/`). The `StorageClass` (`nfs-csi`, set as default) lives in `infrastructure/configs/maxipi/nfs-csi/storageclass.yaml`, pointing at `192.168.1.14`.
+The CSI Driver NFS Helm chart is installed via Flux (`infrastructure/controllers/maxipi/nfs-csi/`). Two StorageClasses are available:
+- `standard` - NFSv3, used by default; compatible with linuxserver images that run `chown` at startup
+- `nfs-csi` - NFSv4.1, for images without chown requirements that benefit from NFSv4.1 features
 
-### Grafana PVC ownership (on cluster recreation)
+### Grafana PVC ownership on adstage (cluster recreation)
 
-`initChownData` is disabled to avoid running a root init container on every pod start. On a fresh cluster, the local-path provisioner creates the Grafana PVC directory owned by root, which Grafana (UID 472) cannot write to. Fix it once before Grafana starts:
+`initChownData` is disabled to avoid running a root init container on every pod start. On a fresh adstage cluster, the local-path provisioner creates the Grafana PVC directory owned by root, which Grafana (UID 472) cannot write to. Fix it once before Grafana starts:
 
 ```bash
-# Scale down so Grafana doesn't start
+# Scale down so Grafana doesn't start while you work
 kubectl scale deployment -n monitoring kube-prometheus-stack-grafana --replicas=0
 
 # Find the PVC path on the node
 PV=$(kubectl get pvc -n monitoring kube-prometheus-stack-grafana -o jsonpath='{.spec.volumeName}')
-PV_PATH=$(kubectl get pv $PV -o jsonpath='{.spec.local.path}')  # for adstage
-PV_PATH=$(kubectl get pv $PV -o jsonpath='{.spec.hostPath.path}')  # for maxipi
+PV_PATH=$(kubectl get pv $PV -o jsonpath='{.spec.local.path}')
+
 chown -R 472:472 $PV_PATH
 
 # Scale back up
 kubectl scale deployment -n monitoring kube-prometheus-stack-grafana --replicas=1
 ```
+
+On maxipi, Grafana uses NFS storage and this issue does not apply.
 
 ## TODO:
 
@@ -143,4 +166,3 @@ kubectl scale deployment -n monitoring kube-prometheus-stack-grafana --replicas=
 - Add NetworkPolicies
 - Grafana Alerts
 - PostgreSQL runs as `Deployment` rather than `StatefulSet`. It works, but loses ordered rollout guarantees and stable network identity.
-
