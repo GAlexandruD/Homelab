@@ -9,6 +9,10 @@ patches:
       name: transmission
     patch: |
       - op: replace
+        path: /spec/strategy
+        value:
+          type: Recreate
+      - op: replace
         path: /spec/template/spec/containers/0/ports
         value:
           - containerPort: 9091
