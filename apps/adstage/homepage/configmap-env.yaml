@@ -54,7 +54,7 @@ data:
               slug: adstage
 
         - GrafanaMonitoring:
-            href: http://grafana-adstage.alexandrud.com/
+            href: https://grafana-adstage.alexandrud.com/public-dashboards/c10dc28cfcbf4d898327af47922170e0
             description: Monitoring
             icon: grafana
 
