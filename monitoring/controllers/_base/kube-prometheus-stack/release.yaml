@@ -34,6 +34,11 @@ spec:
       persistence:
         enabled: true
         size: 1Gi
+      initChownData:
+        enabled: false  # Disabled: runs as root on every start, only needed once. On cluster recreation, manually chown the PVC path to 472:472 before starting Grafana.
+      sidecar:
+        datasources:
+          skipReload: false
       admin:
         existingSecret: grafana-admin-secret
         userKey: adminUser

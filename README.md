@@ -119,6 +119,24 @@ systemctl enable --now nfs-server
 
 The CSI Driver NFS Helm chart is installed via Flux (`infrastructure/controllers/maxipi/nfs-csi/`). The `StorageClass` (`nfs-csi`, set as default) lives in `infrastructure/configs/maxipi/nfs-csi/storageclass.yaml`, pointing at `192.168.1.14`.
 
+### Grafana PVC ownership (on cluster recreation)
+
+`initChownData` is disabled to avoid running a root init container on every pod start. On a fresh cluster, the local-path provisioner creates the Grafana PVC directory owned by root, which Grafana (UID 472) cannot write to. Fix it once before Grafana starts:
+
+```bash
+# Scale down so Grafana doesn't start
+kubectl scale deployment -n monitoring kube-prometheus-stack-grafana --replicas=0
+
+# Find the PVC path on the node
+PV=$(kubectl get pvc -n monitoring kube-prometheus-stack-grafana -o jsonpath='{.spec.volumeName}')
+PV_PATH=$(kubectl get pv $PV -o jsonpath='{.spec.local.path}')  # for adstage
+PV_PATH=$(kubectl get pv $PV -o jsonpath='{.spec.hostPath.path}')  # for maxipi
+chown -R 472:472 $PV_PATH
+
+# Scale back up
+kubectl scale deployment -n monitoring kube-prometheus-stack-grafana --replicas=1
+```
+
 ## TODO:
 
 - Backups
