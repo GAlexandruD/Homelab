@@ -5,7 +5,10 @@ resources:
   - ../../_base/kube-prometheus-stack
   - grafana-admin-secret.yaml
 patches:
-  - patch: |
+  - target:
+      kind: HelmRelease
+      name: kube-prometheus-stack
+    patch: |
       apiVersion: helm.toolkit.fluxcd.io/v2
       kind: HelmRelease
       metadata:
