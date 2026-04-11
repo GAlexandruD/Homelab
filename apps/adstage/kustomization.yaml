@@ -12,3 +12,4 @@ resources:
   - uptimekuma
   - wallabag
   - quartz
+  - minio

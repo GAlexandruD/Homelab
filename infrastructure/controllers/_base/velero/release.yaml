@@ -1,0 +1,59 @@
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: velero
+  namespace: velero
+spec:
+  interval: 30m
+  chart:
+    spec:
+      # renovate: datasource=helm registryUrl=https://vmware-tanzu.github.io/helm-charts
+      chart: velero
+      version: "7.3.0"
+      sourceRef:
+        kind: HelmRepository
+        name: velero
+        namespace: velero
+      interval: 12h
+  install:
+    crds: Create
+  upgrade:
+    crds: CreateReplace
+  values:
+    # AWS plugin required for S3-compatible storage (MinIO)
+    initContainers:
+      - name: velero-plugin-for-aws
+        image: velero/velero-plugin-for-aws:v1.10.0
+        imagePullPolicy: IfNotPresent
+        volumeMounts:
+          - mountPath: /target
+            name: plugins
+
+    # Use secret created by ESO in the adstage overlay
+    credentials:
+      useSecret: true
+      existingSecret: velero-credentials
+
+    configuration:
+      # kopia for file-level PVC backup — works without CSI volume snapshots
+      uploaderType: kopia
+      # Back up all PVC volumes by default (opt-out model)
+      defaultVolumesToFsBackup: true
+      backupStorageLocation:
+        - name: default
+          provider: aws
+          bucket: velero
+          default: true
+          config:
+            region: minio
+            s3ForcePathStyle: "true"
+            s3Url: http://minio.minio.svc.cluster.local:9000
+
+    # node-agent DaemonSet reads pod volumes from the host for file-level backup
+    deployNodeAgent: true
+    nodeAgent:
+      # Privileged required to access pod volume mounts on the host
+      podSecurityContext:
+        runAsUser: 0
+      containerSecurityContext:
+        privileged: true

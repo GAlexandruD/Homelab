@@ -1,0 +1,18 @@
+apiVersion: velero.io/v1
+kind: Schedule
+metadata:
+  name: daily-backup
+  namespace: velero
+spec:
+  schedule: "0 1 * * *"  # daily at 1am UTC
+  template:
+    ttl: 168h0m0s          # 7 days retention
+    storageLocation: default
+    includedNamespaces:
+      - "*"
+    excludedNamespaces:
+      - kube-system
+      - flux-system
+      - velero
+      - minio        # backup target — excluded to avoid circular backup
+      - external-secrets
