@@ -13,3 +13,13 @@ resources:
   - wallabag
   - quartz
   - minio
+patches:
+  # Temporary: existing adstage PVCs were created with local-path before the
+  # standard StorageClass abstraction. storageClassName is immutable on bound
+  # PVCs. This patch will be removed after PVCs are recreated with standard.
+  - target:
+      kind: PersistentVolumeClaim
+    patch: |
+      - op: replace
+        path: /spec/storageClassName
+        value: local-path
