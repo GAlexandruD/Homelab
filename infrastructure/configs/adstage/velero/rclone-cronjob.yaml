@@ -1,0 +1,88 @@
+apiVersion: batch/v1
+kind: CronJob
+metadata:
+  name: rclone-r2-sync
+  namespace: velero
+spec:
+  schedule: "0 3 * * *"  # 3am UTC, after Velero backup (1am)
+  concurrencyPolicy: Forbid
+  successfulJobsHistoryLimit: 3
+  failedJobsHistoryLimit: 3
+  jobTemplate:
+    spec:
+      template:
+        spec:
+          restartPolicy: OnFailure
+          securityContext:
+            runAsUser: 1000
+            runAsGroup: 1000
+            fsGroup: 1000
+          containers:
+            - name: rclone
+              image: rclone/rclone:1.69.1
+              command:
+                - /bin/sh
+                - -c
+                - rclone copy minio:velero r2:${R2_BUCKET} --progress
+              env:
+                - name: HOME
+                  value: /tmp
+                # MinIO source
+                - name: RCLONE_CONFIG_MINIO_TYPE
+                  value: s3
+                - name: RCLONE_CONFIG_MINIO_PROVIDER
+                  value: Minio
+                - name: RCLONE_CONFIG_MINIO_ENDPOINT
+                  value: http://minio.minio.svc.cluster.local:9000
+                - name: RCLONE_CONFIG_MINIO_ACCESS_KEY_ID
+                  valueFrom:
+                    secretKeyRef:
+                      name: rclone-credentials
+                      key: MINIO_ACCESS_KEY_ID
+                - name: RCLONE_CONFIG_MINIO_SECRET_ACCESS_KEY
+                  valueFrom:
+                    secretKeyRef:
+                      name: rclone-credentials
+                      key: MINIO_SECRET_ACCESS_KEY
+                # R2 destination
+                - name: RCLONE_CONFIG_R2_TYPE
+                  value: s3
+                - name: RCLONE_CONFIG_R2_PROVIDER
+                  value: Cloudflare
+                - name: RCLONE_CONFIG_R2_REGION
+                  value: auto
+                - name: RCLONE_CONFIG_R2_ACCESS_KEY_ID
+                  valueFrom:
+                    secretKeyRef:
+                      name: rclone-credentials
+                      key: R2_ACCESS_KEY_ID
+                - name: RCLONE_CONFIG_R2_SECRET_ACCESS_KEY
+                  valueFrom:
+                    secretKeyRef:
+                      name: rclone-credentials
+                      key: R2_SECRET_ACCESS_KEY
+                - name: RCLONE_CONFIG_R2_ENDPOINT
+                  valueFrom:
+                    secretKeyRef:
+                      name: rclone-credentials
+                      key: R2_ENDPOINT
+                - name: R2_BUCKET
+                  valueFrom:
+                    secretKeyRef:
+                      name: rclone-credentials
+                      key: R2_BUCKET
+              securityContext:
+                allowPrivilegeEscalation: false
+                runAsNonRoot: true
+                readOnlyRootFilesystem: true
+                seccompProfile:
+                  type: RuntimeDefault
+                capabilities:
+                  drop:
+                    - ALL
+              volumeMounts:
+                - name: tmp
+                  mountPath: /tmp
+          volumes:
+            - name: tmp
+              emptyDir: {}
