@@ -17,9 +17,16 @@ My personal k8s homelab running two clusters, managed entirely through GitOps wi
 | Transmission | BitTorrent client |
 | Uptime Kuma | Uptime monitoring |
 | Quartz | Personal blog |
-| Wallabag | Read-it-later |
 
 Plus kube-prometheus-stack for monitoring (Prometheus + Grafana) and Renovate running as an in-cluster CronJob for dependency updates.
+
+### Not currently deployed
+
+Apps with full manifests in the repo but not active on any cluster:
+
+| App | Purpose | Notes |
+|-----|---------|-------|
+| Wallabag | Read-it-later | Requires root entrypoint; kept as reference |
 
 ### maxipi (production)
 
@@ -88,7 +95,7 @@ securityContext:
 
 Where a container needs to write to the filesystem (JVM tmp dirs, PostgreSQL sockets, app caches), an `emptyDir` volume covers just that path rather than making the whole root writable. PostgreSQL deployments always get emptyDirs at `/tmp` and `/var/run/postgresql`.
 
-Some images are incompatible with this because their entrypoints expect to run as root. Wallabag and the Transmission linuxserver image fall into this bucket. Those get `seccompProfile: RuntimeDefault` only, until rootless alternatives exist.
+Some images are incompatible with this because their entrypoints expect to run as root. The Transmission linuxserver image falls into this bucket and gets `seccompProfile: RuntimeDefault` only, until a rootless alternative exists.
 
 ## Adding an app
 
