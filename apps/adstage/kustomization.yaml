@@ -10,6 +10,5 @@ resources:
   - nextjs-on-docker
   - transmission
   - uptimekuma
-  - wallabag
   - quartz
   - minio
