@@ -4,6 +4,7 @@ namespace: homepage
 resources:
   - ../../_base/homepage/
   - configmap-env.yaml
+  - configmap.yaml
   - ingress.yaml
   - cloudflare.yaml
   - cf-tunnel-homepage-adstage.yaml
