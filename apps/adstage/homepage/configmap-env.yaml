@@ -22,10 +22,6 @@ data:
             href: https://linkding-adstage.alexandrud.com/
             description: Bookmarks
             icon: linkding
-        - Wallabag:
-            href: https://wallabag-adstage.alexandrud.com/
-            description: Read later.
-            icon: wallabag
         - Audiobookshelf:
             href: https://audiobookshelf-adstage.alexandrud.com/
             description: Audio books.
@@ -54,11 +50,12 @@ data:
               slug: adstage
 
         - GrafanaMonitoring:
-            href: https://grafana-adstage.alexandrud.com/public-dashboards/c10dc28cfcbf4d898327af47922170e0
+            href: https://grafana-adstage.alexandrud.com/public-dashboards/42f78c614ade459cabf8c235e2b14819
             description: Monitoring
             icon: grafana
 
-    - My Third Group:
-        - My Third Service:
-            href: http://alexandrud.com/
-            description: Homepage is 😎
+    - Currently Disabled:
+        - Wallabag:
+            #href: https://wallabag-adstage.alexandrud.com/
+            description: Read later.
+            icon: wallabag
