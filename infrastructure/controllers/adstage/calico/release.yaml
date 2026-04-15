@@ -9,7 +9,7 @@ spec:
     spec:
       # renovate: datasource=helm registryUrl=https://projectcalico.docs.tigera.io/charts
       chart: tigera-operator
-      version: "v3.31.4"
+      version: "v3.31.5"
       sourceRef:
         kind: HelmRepository
         name: tigera-operator
