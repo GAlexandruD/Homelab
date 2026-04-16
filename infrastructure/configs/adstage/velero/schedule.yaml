@@ -16,3 +16,5 @@ spec:
       - velero
       - minio        # backup target — excluded to avoid circular backup
       - external-secrets
+      - monitoring   # Prometheus metrics, not worth backing up
+      - transmission # Nothing to save here
