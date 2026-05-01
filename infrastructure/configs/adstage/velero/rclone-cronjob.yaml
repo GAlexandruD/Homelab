@@ -19,7 +19,7 @@ spec:
             fsGroup: 1000
           containers:
             - name: rclone
-              image: rclone/rclone:1.73.5
+              image: rclone/rclone:1.74.0
               command:
                 - /bin/sh
                 - -c
