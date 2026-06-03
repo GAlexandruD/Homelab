@@ -21,6 +21,7 @@ patches:
           credentials:
             useSecret: true
             existingSecret: velero-minio-credentials
+          snapshotsEnabled: false
           configuration:
             uploaderType: kopia
             defaultVolumesToFsBackup: true
