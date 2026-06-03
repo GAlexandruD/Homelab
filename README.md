@@ -32,6 +32,7 @@ Apps with full manifests in the repo but not active on any cluster:
 
 | App | Purpose |
 |-----|---------|
+| MinIO | S3-compatible object store (backup target for Velero) |
 | Transmission | BitTorrent client |
 
 Plus kube-prometheus-stack for monitoring (Prometheus + Grafana).
@@ -167,9 +168,30 @@ kubectl scale deployment -n monitoring kube-prometheus-stack-grafana --replicas=
 
 On maxipi, Grafana uses NFS storage and this issue does not apply.
 
+## Backups
+
+Both clusters use the same two-layer pattern:
+
+```
+Velero (kopia) ──► MinIO (local)
+                        │
+                   rclone CronJob
+                        │
+              ┌─────────┴─────────┐
+           Koofr             Cloudflare R2
+        (maxipi)              (adstage)
+```
+
+**Why MinIO in the middle:** Velero only speaks S3. Offsite storage (Koofr, Google Drive, etc.) don't usually offers a native S3 API. MinIO acts as an S3 bridge so Velero writes fast to local MinIO, and a separate rclone CronJob copies from MinIO to whatever offsite storage is available using rclone's native providers. This decouples Velero from offsite storage choice entirely.
+
+**adstage:** Velero → MinIO (local PVC) → rclone → Cloudflare R2
+
+**maxipi:** Velero → MinIO (WD2TB at `/mnt/WD2TB/minio-data`) → rclone → Koofr + Google Drive
+
+Velero uses kopia as the file-level uploader (`uploaderType: kopia`, `defaultVolumesToFsBackup: true`), which means PVC contents are backed up without needing CSI volume snapshot support. Backups run daily; rclone sync runs two hours later. All data written by kopia is encrypted at rest, so offsite copies on Koofr and Google Drive are unreadable without the repository key stored in the cluster.
+
 ## TODO:
 
-- Backups
 - Add NetworkPolicies
 - Grafana Alerts
 - PostgreSQL runs as `Deployment` rather than `StatefulSet`. It works, but loses ordered rollout guarantees and stable network identity.
