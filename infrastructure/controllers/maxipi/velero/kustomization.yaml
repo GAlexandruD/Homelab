@@ -19,7 +19,8 @@ patches:
                 - mountPath: /target
                   name: plugins
           credentials:
-            useSecret: false
+            useSecret: true
+            existingSecret: velero-minio-credentials
           configuration:
             uploaderType: kopia
             defaultVolumesToFsBackup: true
@@ -28,23 +29,10 @@ patches:
                 provider: aws
                 bucket: velero
                 default: true
-                credential:
-                  name: velero-minio-credentials
-                  key: cloud
                 config:
                   region: minio
                   s3ForcePathStyle: "true"
                   s3Url: http://minio.minio.svc.cluster.local:9000
-              - name: koofr
-                provider: aws
-                bucket: velero-maxipi
-                credential:
-                  name: velero-koofr-credentials
-                  key: cloud
-                config:
-                  region: koofr
-                  s3ForcePathStyle: "true"
-                  s3Url: https://app.koofr.net
           deployNodeAgent: true
           nodeAgent:
             podSecurityContext:

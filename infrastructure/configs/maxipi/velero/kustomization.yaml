@@ -2,6 +2,6 @@ apiVersion: kustomize.config.k8s.io/v1beta1
 kind: Kustomization
 resources:
   - minio-externalsecret.yaml
-  - koofr-externalsecret.yaml
+  - rclone-externalsecret.yaml
+  - rclone-cronjob.yaml
   - schedule-local.yaml
-  - schedule-koofr.yaml
