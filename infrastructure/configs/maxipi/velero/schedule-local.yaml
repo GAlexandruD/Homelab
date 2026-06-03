@@ -1,0 +1,23 @@
+apiVersion: velero.io/v1
+kind: Schedule
+metadata:
+  name: daily-backup-local
+  namespace: velero
+spec:
+  schedule: "0 1 * * *"
+  template:
+    ttl: 168h0m0s
+    storageLocation: local
+    includedNamespaces:
+      - "*"
+    excludedNamespaces:
+      - kube-system
+      - flux-system
+      - velero
+      - minio
+      - external-secrets
+      - monitoring
+      - tigera-operator
+      - calico-system
+      - calico-apiserver
+      - transmission

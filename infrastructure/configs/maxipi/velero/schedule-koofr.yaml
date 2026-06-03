@@ -1,0 +1,23 @@
+apiVersion: velero.io/v1
+kind: Schedule
+metadata:
+  name: weekly-backup-koofr
+  namespace: velero
+spec:
+  schedule: "0 3 * * *"
+  template:
+    ttl: 720h0m0s
+    storageLocation: koofr
+    includedNamespaces:
+      - "*"
+    excludedNamespaces:
+      - kube-system
+      - flux-system
+      - velero
+      - minio
+      - external-secrets
+      - monitoring
+      - tigera-operator
+      - calico-system
+      - calico-apiserver
+      - transmission

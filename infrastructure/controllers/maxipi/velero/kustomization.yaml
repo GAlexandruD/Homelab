@@ -1,0 +1,53 @@
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+resources:
+  - ../../_base/velero
+patches:
+  - patch: |-
+      apiVersion: helm.toolkit.fluxcd.io/v2
+      kind: HelmRelease
+      metadata:
+        name: velero
+        namespace: velero
+      spec:
+        values:
+          initContainers:
+            - name: velero-plugin-for-aws
+              image: velero/velero-plugin-for-aws:v1.14.1
+              imagePullPolicy: IfNotPresent
+              volumeMounts:
+                - mountPath: /target
+                  name: plugins
+          credentials:
+            useSecret: false
+          configuration:
+            uploaderType: kopia
+            defaultVolumesToFsBackup: true
+            backupStorageLocation:
+              - name: local
+                provider: aws
+                bucket: velero
+                default: true
+                credential:
+                  name: velero-minio-credentials
+                  key: cloud
+                config:
+                  region: minio
+                  s3ForcePathStyle: "true"
+                  s3Url: http://minio.minio.svc.cluster.local:9000
+              - name: koofr
+                provider: aws
+                bucket: velero-maxipi
+                credential:
+                  name: velero-koofr-credentials
+                  key: cloud
+                config:
+                  region: koofr
+                  s3ForcePathStyle: "true"
+                  s3Url: https://app.koofr.net
+          deployNodeAgent: true
+          nodeAgent:
+            podSecurityContext:
+              runAsUser: 0
+            containerSecurityContext:
+              privileged: true

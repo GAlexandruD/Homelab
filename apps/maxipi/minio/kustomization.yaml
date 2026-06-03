@@ -1,0 +1,20 @@
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+namespace: minio
+resources:
+  - ../../_base/minio
+  - externalsecret.yaml
+  - pv.yaml
+patches:
+  - patch: |-
+      apiVersion: v1
+      kind: PersistentVolumeClaim
+      metadata:
+        name: minio-data
+        namespace: minio
+      spec:
+        storageClassName: ""
+        volumeName: minio-data-maxipi
+        resources:
+          requests:
+            storage: 500Gi
