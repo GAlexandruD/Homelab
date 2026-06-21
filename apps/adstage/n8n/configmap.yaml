@@ -21,6 +21,7 @@ data:
   N8N_PORT: "5678"
   N8N_PROTOCOL: "http"
   NODE_ENV: production
+  NODE_OPTIONS: "--max-old-space-size=768"
   WEBHOOK_URL: "https://n8n-adstage.alexandrud.com/"
   N8N_PROXY_HOPS: "1"
   # N8N_RUNNERS_ENABLED: "true"
