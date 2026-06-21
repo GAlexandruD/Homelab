@@ -19,7 +19,7 @@ spec:
         node.kubernetes.io/instance-type: k3s
       containers:
         - name: cleanup
-          image: alpine:3.23
+          image: alpine:3.24
           command:
             - /bin/sh
             - -c
