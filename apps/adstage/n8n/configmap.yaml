@@ -22,5 +22,5 @@ data:
   N8N_PROTOCOL: "http"
   NODE_ENV: production
   WEBHOOK_URL: "https://n8n-adstage.alexandrud.com/"
-  N8N_RUNNERS_ENABLED: "true"
   N8N_PROXY_HOPS: "1"
+  # N8N_RUNNERS_ENABLED: "true"
