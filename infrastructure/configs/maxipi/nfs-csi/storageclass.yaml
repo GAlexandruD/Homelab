@@ -37,7 +37,7 @@ parameters:
 reclaimPolicy: Retain
 volumeBindingMode: Immediate
 mountOptions:
-  - nfsvers=4.1
+  - nfsvers=3
 ---
 apiVersion: storage.k8s.io/v1
 kind: StorageClass
@@ -50,4 +50,4 @@ parameters:
 reclaimPolicy: Retain
 volumeBindingMode: Immediate
 mountOptions:
-  - nfsvers=4.1
+  - nfsvers=3
