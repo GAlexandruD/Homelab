@@ -65,22 +65,24 @@ spec:
           livenessProbe:
             exec:
               command: ["sh", "-c", "pg_isready -U immich"]
-            initialDelaySeconds: 30
+            initialDelaySeconds: 60
             periodSeconds: 30
-            failureThreshold: 3
+            timeoutSeconds: 5
+            failureThreshold: 5
           readinessProbe:
             exec:
               command: ["sh", "-c", "pg_isready -U immich"]
-            initialDelaySeconds: 10
+            initialDelaySeconds: 15
             periodSeconds: 10
+            timeoutSeconds: 5
             failureThreshold: 3
           resources:
             requests:
               cpu: 100m
-              memory: 256Mi
-            limits:
-              cpu: 1000m
               memory: 512Mi
+            limits:
+              cpu: 2000m
+              memory: 1536Mi
       volumes:
         - name: postgresql-data
           persistentVolumeClaim:
