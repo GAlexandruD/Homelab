@@ -17,6 +17,15 @@ spec:
         runAsUser: 999
         runAsGroup: 999
         fsGroup: 999
+      initContainers:
+        - name: init-permissions
+          image: busybox:1.36
+          command: ["sh", "-c", "chown -R 999:999 /data"]
+          securityContext:
+            runAsUser: 0
+          volumeMounts:
+            - name: postgresql-data
+              mountPath: /data
       containers:
         - name: postgresql
           image: ghcr.io/immich-app/postgres:14-vectorchord0.4.3-pgvectors0.2.0
