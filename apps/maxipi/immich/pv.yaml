@@ -10,7 +10,7 @@ spec:
   persistentVolumeReclaimPolicy: Retain
   storageClassName: ""
   hostPath:
-    path: /mnt/WD8TB/immich
+    path: /mnt/WD8TB/nfs-8TB/k8s/immich
     type: DirectoryOrCreate
   nodeAffinity:
     required:
@@ -44,7 +44,7 @@ spec:
   resources:
     requests:
       storage: 10Gi
-  storageClassName: nfs-csi
+  storageClassName: nfs-csi-8tb
 ---
 apiVersion: v1
 kind: PersistentVolumeClaim
@@ -56,4 +56,4 @@ spec:
   resources:
     requests:
       storage: 20Gi
-  storageClassName: nfs-csi
+  storageClassName: nfs-csi-8tb

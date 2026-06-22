@@ -25,3 +25,29 @@ reclaimPolicy: Retain
 volumeBindingMode: Immediate
 mountOptions:
   - nfsvers=3
+---
+apiVersion: storage.k8s.io/v1
+kind: StorageClass
+metadata:
+  name: nfs-csi-8tb
+provisioner: nfs.csi.k8s.io
+parameters:
+  server: 192.168.1.14
+  share: /mnt/WD8TB/nfs-8TB/k8s
+reclaimPolicy: Retain
+volumeBindingMode: Immediate
+mountOptions:
+  - nfsvers=4.1
+---
+apiVersion: storage.k8s.io/v1
+kind: StorageClass
+metadata:
+  name: nfs-csi-2tb
+provisioner: nfs.csi.k8s.io
+parameters:
+  server: 192.168.1.14
+  share: /mnt/WD2TB/nfs-2TB/k8s
+reclaimPolicy: Retain
+volumeBindingMode: Immediate
+mountOptions:
+  - nfsvers=4.1
