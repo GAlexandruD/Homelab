@@ -42,6 +42,8 @@ spec:
               mountPath: /tmp
             - name: run
               mountPath: /var/run/postgresql
+            - name: etc-postgresql
+              mountPath: /etc/postgresql
           securityContext:
             allowPrivilegeEscalation: false
             runAsNonRoot: true
@@ -77,6 +79,8 @@ spec:
         - name: tmp
           emptyDir: {}
         - name: run
+          emptyDir: {}
+        - name: etc-postgresql
           emptyDir: {}
 ---
 apiVersion: v1
