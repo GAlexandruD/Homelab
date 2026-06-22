@@ -6,4 +6,3 @@ resources:
   - nfs-csi
   - velero
   - tailscale
-  - immich
