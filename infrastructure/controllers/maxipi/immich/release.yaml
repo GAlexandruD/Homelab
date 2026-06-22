@@ -26,7 +26,7 @@ spec:
       - secretRef:
           name: immich-secrets
 
-    server:
+    immich:
       persistence:
         library:
           existingClaim: immich-library-pvc

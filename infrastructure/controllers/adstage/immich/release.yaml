@@ -26,11 +26,10 @@ spec:
       - secretRef:
           name: immich-secrets
 
-    server:
+    immich:
       persistence:
         library:
-          storageClass: standard
-          size: 50Gi
+          existingClaim: immich-library-pvc
 
     machine-learning:
       enabled: true
