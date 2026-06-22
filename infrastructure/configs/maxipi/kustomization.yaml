@@ -6,3 +6,4 @@ resources:
   - nfs-csi
   - storage
   - velero
+  - tailscale

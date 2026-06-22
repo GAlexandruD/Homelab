@@ -5,3 +5,4 @@ resources:
   - renovate
   - external-secrets
   - velero
+  - immich

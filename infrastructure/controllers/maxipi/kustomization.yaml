@@ -5,3 +5,5 @@ resources:
   - external-secrets
   - nfs-csi
   - velero
+  - tailscale
+  - immich
