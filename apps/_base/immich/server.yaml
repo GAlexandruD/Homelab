@@ -81,7 +81,7 @@ spec:
               memory: 256Mi
             limits:
               cpu: 4000m
-              memory: 1Gi
+              memory: 8Gi
       volumes:
         - name: library
           persistentVolumeClaim:
