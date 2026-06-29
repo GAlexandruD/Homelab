@@ -41,13 +41,13 @@ spec:
                   user = ${KOOFR_USER}
                   password = ${KOOFR_OBSCURED}
 
-                  [gdrive]
-                  type = drive
-                  scope = drive
                   EOF
-                  printf 'token = %s\n' "${GDRIVE_TOKEN}" >> /tmp/rclone/rclone.conf
+                  # [gdrive]
+                  # type = drive
+                  # scope = drive
+                  # printf 'token = %s\n' "${GDRIVE_TOKEN}" >> /tmp/rclone/rclone.conf
                   rclone copy minio:velero koofr:velero-maxipi --config /tmp/rclone/rclone.conf --progress
-                  rclone copy minio:velero gdrive:velero-maxipi --config /tmp/rclone/rclone.conf --progress
+                  # rclone copy minio:velero gdrive:velero-maxipi --config /tmp/rclone/rclone.conf --progress
               env:
                 - name: HOME
                   value: /tmp
@@ -71,11 +71,11 @@ spec:
                     secretKeyRef:
                       name: rclone-credentials
                       key: KOOFR_PASSWORD
-                - name: GDRIVE_TOKEN
-                  valueFrom:
-                    secretKeyRef:
-                      name: rclone-credentials
-                      key: GDRIVE_TOKEN
+                # - name: GDRIVE_TOKEN
+                #   valueFrom:
+                #     secretKeyRef:
+                #       name: rclone-credentials
+                #       key: GDRIVE_TOKEN
               securityContext:
                 allowPrivilegeEscalation: false
                 runAsNonRoot: true
