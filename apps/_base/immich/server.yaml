@@ -27,7 +27,7 @@ spec:
               mountPath: /data
       containers:
         - name: immich-server
-          image: ghcr.io/immich-app/immich-server:v3.0.0-rc.2
+          image: ghcr.io/immich-app/immich-server:v3.0.0
           envFrom:
             - secretRef:
                 name: immich-secrets
