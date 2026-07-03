@@ -6,7 +6,7 @@ metadata:
 spec:
   schedule: "0 1 * * *"
   template:
-    ttl: 168h0m0s
+    ttl: 720h0m0s
     storageLocation: local
     includedNamespaces:
       - "*"

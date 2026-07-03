@@ -3,6 +3,7 @@
   "extends": ["config:base"],
   "ignorePaths": ["apps/_base/**"],
   "osvVulnerabilityAlerts": true,
+  "fetchReleaseNotes": "branch",
   "kubernetes": {
     "fileMatch": [
       "\\.yaml$"
