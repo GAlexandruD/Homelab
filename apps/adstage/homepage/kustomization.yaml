@@ -3,6 +3,9 @@ kind: Kustomization
 namespace: homepage
 resources:
   - ../../_base/homepage/
+images:
+  - name: ghcr.io/gethomepage/homepage
+    newTag: "v1.13.2"
   - configmap-env.yaml
   - configmap.yaml
   - ingress.yaml

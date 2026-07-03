@@ -3,6 +3,9 @@ kind: Kustomization
 namespace: transmission
 resources:
   - ../../_base/transmission
+images:
+  - name: lscr.io/linuxserver/transmission
+    newTag: "4.1.2"
 patches:
   - target:
       kind: Deployment
