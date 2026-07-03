@@ -6,5 +6,5 @@ resources:
   #- transmission-container-env-secret.yaml
 images:
   - name: lscr.io/linuxserver/transmission
-    newTag: "4.1.2"
+    newTag: "4.1.3"
 
