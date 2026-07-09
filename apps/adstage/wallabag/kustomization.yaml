@@ -3,11 +3,6 @@ kind: Kustomization
 namespace: wallabag
 resources:
   - ../../_base/wallabag/
-images:
-  - name: wallabag/wallabag
-    newTag: "2.6.14"
-  - name: postgres
-    newTag: "18"
   - cf-tunnel-wallabag-adstage.yaml
   - cloudflare.yaml
   - configmap-entrypoint.yaml
@@ -16,3 +11,8 @@ images:
   - ingress.yaml
   - postgresql-secret.yaml
   - wallabag-container-env-secret.yaml
+images:
+  - name: wallabag/wallabag
+    newTag: "2.6.14"
+  - name: postgres
+    newTag: "18"

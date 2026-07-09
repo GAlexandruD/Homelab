@@ -3,10 +3,10 @@ kind: Kustomization
 namespace: nextjs-on-docker
 resources:
   - ../../_base/nextjs-on-docker/
-images:
-  - name: docker.io/galexandrud/nextjs-on-docker
-    newTag: "0.0.5"
   - cloudflare.yaml
   #- audiobookshelf-container-env-secret.yaml
   - cf-tunnel-nextjs-on-docker-adstage.yaml
   - ingress.yaml
+images:
+  - name: docker.io/galexandrud/nextjs-on-docker
+    newTag: "0.0.5"

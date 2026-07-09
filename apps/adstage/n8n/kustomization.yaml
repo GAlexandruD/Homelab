@@ -3,14 +3,14 @@ kind: Kustomization
 namespace: n8n
 resources:
   - ../../_base/n8n/
-images:
-  - name: docker.n8n.io/n8nio/n8n
-    newTag: "2.27.3"
-  - name: postgres
-    newTag: "18"
   - cloudflare.yaml
   - n8n-container-env-secret.yaml
   - cf-tunnel-n8n-adstage.yaml
   - ingress.yaml
   - configmap.yaml
   - postgresql-secret.yaml
+images:
+  - name: docker.n8n.io/n8nio/n8n
+    newTag: "2.27.3"
+  - name: postgres
+    newTag: "18"

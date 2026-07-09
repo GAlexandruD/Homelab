@@ -3,10 +3,10 @@ kind: Kustomization
 namespace: linkding
 resources:
   - ../../_base/linkding
-images:
-  - name: sissbruecker/linkding
-    newTag: "1.45.0"
   - cloudflare.yaml
   - linkding-container-env-secret.yaml
   - cf-tunnel-linkding-adstage.yaml
   - ingress.yaml
+images:
+  - name: sissbruecker/linkding
+    newTag: "1.45.0"

@@ -3,9 +3,9 @@ kind: Kustomization
 namespace: uptimekuma
 resources:
   - ../../_base/uptimekuma
-images:
-  - name: louislam/uptime-kuma
-    newTag: "2.4.0-rootless"
   - cloudflare.yaml
   - cf-tunnel-uptimekuma-adstage.yaml
   - ingress.yaml
+images:
+  - name: louislam/uptime-kuma
+    newTag: "2.4.0-rootless"

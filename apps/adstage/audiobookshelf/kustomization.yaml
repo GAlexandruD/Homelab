@@ -3,10 +3,10 @@ kind: Kustomization
 namespace: audiobookshelf
 resources:
   - ../../_base/audiobookshelf
-images:
-  - name: ghcr.io/advplyr/audiobookshelf
-    newTag: "2.35.1"
   - cloudflare.yaml
   - audiobookshelf-container-env-secret.yaml
   - cf-tunnel-audiobookshelf-adstage.yaml
   - ingress.yaml
+images:
+  - name: ghcr.io/advplyr/audiobookshelf
+    newTag: "2.35.1"

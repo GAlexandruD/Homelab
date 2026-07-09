@@ -3,14 +3,14 @@ kind: Kustomization
 namespace: commafeed
 resources:
   - ../../_base/commafeed/
-images:
-  - name: athou/commafeed
-    newTag: "7.1.0-postgresql"
-  - name: postgres
-    newTag: "18"
   - cloudflare.yaml
   - commafeed-container-env-secret.yaml
   - cf-tunnel-commafeed-adstage.yaml
   - ingress.yaml
   - configmap.yaml
   - postgresql-secret.yaml
+images:
+  - name: athou/commafeed
+    newTag: "7.1.0-postgresql"
+  - name: postgres
+    newTag: "18"

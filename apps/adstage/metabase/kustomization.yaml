@@ -3,12 +3,12 @@ kind: Kustomization
 namespace: metabase
 resources:
   - ../../_base/metabase
+  - cloudflare.yaml
+  - ingress.yaml
+  - configmap.yaml
+  - externalsecret.yaml
 images:
   - name: metabase/metabase
     newTag: "v0.62.2"
   - name: postgres
     newTag: "18"
-  - cloudflare.yaml
-  - ingress.yaml
-  - configmap.yaml
-  - externalsecret.yaml

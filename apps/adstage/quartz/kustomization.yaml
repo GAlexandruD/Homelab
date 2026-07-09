@@ -3,11 +3,11 @@ kind: Kustomization
 namespace: quartz
 resources:
   - ../../_base/quartz/
+  - ingress.yaml
+  - cloudflare.yaml
+  - externalsecret.yaml
 images:
   - name: node
     newTag: "26-slim"
   - name: nginxinc/nginx-unprivileged
     newTag: "alpine"
-  - ingress.yaml
-  - cloudflare.yaml
-  - externalsecret.yaml
