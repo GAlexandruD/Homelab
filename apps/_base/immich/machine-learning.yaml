@@ -28,7 +28,7 @@ spec:
               mountPath: /cache
       containers:
         - name: immich-machine-learning
-          image: ghcr.io/immich-app/immich-machine-learning:v3.0.0
+          image: ghcr.io/immich-app/immich-machine-learning:v3.0.1
           env:
             - name: MACHINE_LEARNING_CACHE_FOLDER
               value: /cache
