@@ -26,6 +26,7 @@ spec:
         runAsUser: 1000
         runAsGroup: 1000
         fsGroup: 1000
+        fsGroupChangePolicy: OnRootMismatch
       containers:
         - name: homepage
           image: "ghcr.io/gethomepage/homepage:v1.13.2"

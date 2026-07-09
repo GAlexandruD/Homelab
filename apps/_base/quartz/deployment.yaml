@@ -21,6 +21,7 @@ spec:
         runAsUser: 101
         runAsGroup: 101
         fsGroup: 101
+        fsGroupChangePolicy: OnRootMismatch
       containers:
         - name: quartz
           image: nginxinc/nginx-unprivileged:alpine
