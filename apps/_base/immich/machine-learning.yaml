@@ -39,6 +39,10 @@ spec:
               mountPath: /cache
             - name: tmp
               mountPath: /tmp
+            - name: home-cache
+              mountPath: /.cache
+            - name: home-config
+              mountPath: /.config
           securityContext:
             allowPrivilegeEscalation: false
             runAsNonRoot: true
@@ -74,6 +78,10 @@ spec:
           persistentVolumeClaim:
             claimName: immich-ml-cache-pvc
         - name: tmp
+          emptyDir: {}
+        - name: home-cache
+          emptyDir: {}
+        - name: home-config
           emptyDir: {}
 ---
 apiVersion: v1
