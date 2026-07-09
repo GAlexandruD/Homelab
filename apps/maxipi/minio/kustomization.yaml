@@ -3,11 +3,11 @@ kind: Kustomization
 namespace: minio
 resources:
   - ../../_base/minio
+  - externalsecret.yaml
+  - pv.yaml
 images:
   - name: quay.io/minio/minio
     newTag: "RELEASE.2025-09-07T16-13-09Z-cpuv1"
-  - externalsecret.yaml
-  - pv.yaml
 patches:
   - patch: |-
       apiVersion: v1
