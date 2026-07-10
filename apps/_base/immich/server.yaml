@@ -24,10 +24,17 @@ spec:
             - sh
             - -c
             - |
+              for y in /data/library/*/*/; do
+                find "$y" \( ! -user 1000 -o ! -group 1000 \) -exec chown 1000:1000 {} + &
+              done
               for d in /data/*/; do
+                case "$d" in
+                  /data/library/) continue ;;
+                esac
                 find "$d" \( ! -user 1000 -o ! -group 1000 \) -exec chown 1000:1000 {} + &
               done
               wait
+              find /data/library -mindepth 1 -maxdepth 2 ! -type d \( ! -user 1000 -o ! -group 1000 \) -exec chown 1000:1000 {} +
               find /data -mindepth 1 -maxdepth 1 ! -type d \( ! -user 1000 -o ! -group 1000 \) -exec chown 1000:1000 {} +
           securityContext:
             runAsUser: 0
