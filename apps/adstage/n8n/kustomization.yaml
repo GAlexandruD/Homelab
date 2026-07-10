@@ -11,6 +11,6 @@ resources:
   - postgresql-secret.yaml
 images:
   - name: docker.n8n.io/n8nio/n8n
-    newTag: "2.27.3"
+    newTag: "2.30.3"
   - name: postgres
     newTag: "18"
