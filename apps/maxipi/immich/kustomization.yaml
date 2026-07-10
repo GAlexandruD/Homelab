@@ -9,9 +9,9 @@ resources:
   - tailscale-ingress.yaml
 images:
   - name: ghcr.io/immich-app/immich-server
-    newTag: "v3.0.1"
+    newTag: "v3.0.2"
   - name: ghcr.io/immich-app/immich-machine-learning
-    newTag: "v3.0.1"
+    newTag: "v3.0.2"
   - name: ghcr.io/immich-app/postgres
     newTag: "14-vectorchord0.4.3-pgvectors0.2.0"
   - name: valkey/valkey
