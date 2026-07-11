@@ -1,0 +1,84 @@
+apiVersion: batch/v1
+kind: CronJob
+metadata:
+  name: rclone-offsite-sync-koofr
+  namespace: velero
+spec:
+  schedule: "0 23 * * *"
+  timeZone: "Europe/Bucharest"
+  concurrencyPolicy: Forbid
+  successfulJobsHistoryLimit: 3
+  failedJobsHistoryLimit: 3
+  jobTemplate:
+    spec:
+      template:
+        spec:
+          restartPolicy: OnFailure
+          securityContext:
+            runAsUser: 1000
+            runAsGroup: 1000
+            fsGroup: 1000
+          containers:
+            - name: rclone
+              image: rclone/rclone:1.74.3
+              command:
+                - /bin/sh
+                - -c
+                - |
+                  mkdir -p /tmp/rclone
+                  KOOFR_OBSCURED=$(rclone obscure "${KOOFR_PASSWORD}")
+                  cat > /tmp/rclone/rclone.conf << EOF
+                  [minio]
+                  type = s3
+                  provider = Minio
+                  endpoint = http://minio.minio.svc.cluster.local:9000
+                  access_key_id = ${MINIO_ACCESS_KEY_ID}
+                  secret_access_key = ${MINIO_SECRET_ACCESS_KEY}
+
+                  [koofr]
+                  type = koofr
+                  provider = koofr
+                  endpoint = https://app.koofr.net
+                  user = ${KOOFR_USER}
+                  password = ${KOOFR_OBSCURED}
+
+                  EOF
+                  rclone copy minio:velero koofr:velero-maxipi --config /tmp/rclone/rclone.conf --progress
+              env:
+                - name: HOME
+                  value: /tmp
+                - name: MINIO_ACCESS_KEY_ID
+                  valueFrom:
+                    secretKeyRef:
+                      name: rclone-credentials
+                      key: MINIO_ACCESS_KEY_ID
+                - name: MINIO_SECRET_ACCESS_KEY
+                  valueFrom:
+                    secretKeyRef:
+                      name: rclone-credentials
+                      key: MINIO_SECRET_ACCESS_KEY
+                - name: KOOFR_USER
+                  valueFrom:
+                    secretKeyRef:
+                      name: rclone-credentials
+                      key: KOOFR_USER
+                - name: KOOFR_PASSWORD
+                  valueFrom:
+                    secretKeyRef:
+                      name: rclone-credentials
+                      key: KOOFR_PASSWORD
+              securityContext:
+                allowPrivilegeEscalation: false
+                runAsNonRoot: true
+                readOnlyRootFilesystem: true
+                seccompProfile:
+                  type: RuntimeDefault
+                capabilities:
+                  drop:
+                    - ALL
+              volumeMounts:
+                - name: tmp
+                  mountPath: /tmp
+          volumes:
+            - name: tmp
+              emptyDir: {}

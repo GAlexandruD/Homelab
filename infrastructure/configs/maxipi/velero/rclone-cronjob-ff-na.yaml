@@ -1,10 +1,11 @@
 apiVersion: batch/v1
 kind: CronJob
 metadata:
-  name: rclone-offsite-sync
+  name: rclone-offsite-sync-ff-na
   namespace: velero
 spec:
-  schedule: "0 3 * * *"
+  schedule: "0 23 * * *"
+  timeZone: "Europe/Bucharest"
   concurrencyPolicy: Forbid
   successfulJobsHistoryLimit: 3
   failedJobsHistoryLimit: 3
@@ -25,8 +26,6 @@ spec:
                 - -c
                 - |
                   mkdir -p /tmp/rclone
-                  KOOFR_OBSCURED=$(rclone obscure "${KOOFR_PASSWORD}")
-                  FF_EU_OBSCURED=$(rclone obscure "${FOLDERFORT_EU_PASSWORD}")
                   FF_NA_OBSCURED=$(rclone obscure "${FOLDERFORT_NA_PASSWORD}")
                   cat > /tmp/rclone/rclone.conf << EOF
                   [minio]
@@ -36,20 +35,6 @@ spec:
                   access_key_id = ${MINIO_ACCESS_KEY_ID}
                   secret_access_key = ${MINIO_SECRET_ACCESS_KEY}
 
-                  [koofr]
-                  type = koofr
-                  provider = koofr
-                  endpoint = https://app.koofr.net
-                  user = ${KOOFR_USER}
-                  password = ${KOOFR_OBSCURED}
-
-                  [ff-eu]
-                  type = webdav
-                  url = ${FOLDERFORT_EU_URL}
-                  vendor = other
-                  user = ${FOLDERFORT_USER}
-                  pass = ${FF_EU_OBSCURED}
-
                   [ff-na]
                   type = webdav
                   url = ${FOLDERFORT_NA_URL}
@@ -58,13 +43,6 @@ spec:
                   pass = ${FF_NA_OBSCURED}
 
                   EOF
-                  # [gdrive]
-                  # type = drive
-                  # scope = drive
-                  # printf 'token = %s\n' "${GDRIVE_TOKEN}" >> /tmp/rclone/rclone.conf
-                  rclone copy minio:velero koofr:velero-maxipi --config /tmp/rclone/rclone.conf --progress
-                  # rclone copy minio:velero gdrive:velero-maxipi --config /tmp/rclone/rclone.conf --progress
-                  rclone copy minio:velero ff-eu:velero-maxipi --config /tmp/rclone/rclone.conf --tpslimit 2 --checkers 1 --transfers 1 --progress
                   rclone copy minio:velero ff-na:velero-maxipi --config /tmp/rclone/rclone.conf --tpslimit 2 --checkers 1 --transfers 1 --progress
               env:
                 - name: HOME
@@ -79,41 +57,16 @@ spec:
                     secretKeyRef:
                       name: rclone-credentials
                       key: MINIO_SECRET_ACCESS_KEY
-                - name: KOOFR_USER
-                  valueFrom:
-                    secretKeyRef:
-                      name: rclone-credentials
-                      key: KOOFR_USER
-                - name: KOOFR_PASSWORD
-                  valueFrom:
-                    secretKeyRef:
-                      name: rclone-credentials
-                      key: KOOFR_PASSWORD
-                # - name: GDRIVE_TOKEN
-                #   valueFrom:
-                #     secretKeyRef:
-                #       name: rclone-credentials
-                #       key: GDRIVE_TOKEN
                 - name: FOLDERFORT_USER
                   valueFrom:
                     secretKeyRef:
                       name: rclone-credentials
                       key: FOLDERFORT_USER
-                - name: FOLDERFORT_EU_PASSWORD
-                  valueFrom:
-                    secretKeyRef:
-                      name: rclone-credentials
-                      key: FOLDERFORT_EU_PASSWORD
                 - name: FOLDERFORT_NA_PASSWORD
                   valueFrom:
                     secretKeyRef:
                       name: rclone-credentials
                       key: FOLDERFORT_NA_PASSWORD
-                - name: FOLDERFORT_EU_URL
-                  valueFrom:
-                    secretKeyRef:
-                      name: rclone-credentials
-                      key: FOLDERFORT_EU_URL
                 - name: FOLDERFORT_NA_URL
                   valueFrom:
                     secretKeyRef:

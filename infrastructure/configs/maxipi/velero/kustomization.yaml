@@ -3,5 +3,7 @@ kind: Kustomization
 resources:
   - minio-externalsecret.yaml
   - rclone-externalsecret.yaml
-  - rclone-cronjob.yaml
+  - rclone-cronjob-koofr.yaml
+  - rclone-cronjob-ff-eu.yaml
+  - rclone-cronjob-ff-na.yaml
   - schedule-local.yaml
