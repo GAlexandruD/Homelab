@@ -148,6 +148,21 @@ The CSI Driver NFS Helm chart is installed via Flux (`infrastructure/controllers
 - `standard` - NFSv3, used by default; compatible with linuxserver images that run `chown` at startup
 - `nfs-csi` - NFSv4.1, for images without chown requirements that benefit from NFSv4.1 features
 
+### Intel Quick Sync Video for Immich (maxipi)
+
+`immich-server` on maxipi uses the node's Intel iGPU (Celeron J3455, Apollo Lake) for hardware-accelerated video transcoding. This is wired up as a maxipi-only Kustomize patch (`apps/maxipi/immich/kustomization.yaml`), not in the shared `_base` manifest, since adstage's node has no compatible iGPU.
+
+The patch adds a `/dev/dri` hostPath mount, pins the pod to `maxipi` via `nodeSelector` (single-node today, but this stops the pod from being scheduled onto a GPU-less node if the cluster ever grows), and sets `supplementalGroups` to the host's `render` group GID so the non-root container can access `/dev/dri/renderD128`.
+
+That GID is **host-specific**, not a portable constant — it's assigned when the `render` group is created on that particular install, not a standard number. If maxipi is ever rebuilt or Immich moves to different hardware, re-check with:
+```bash
+getent group render
+ls -l /dev/dri/renderD128
+```
+and update `supplementalGroups` in the patch to match. If the new hardware has no compatible iGPU at all, remove the patch and disable hardware transcoding in Immich's admin UI instead.
+
+Hardware acceleration also needs to be turned on in-app: Administration → Settings → Video Transcoding Settings → Hardware Acceleration → Quick Sync (QSV). The manifest change alone only makes the device available; it doesn't enable the feature.
+
 ### Grafana PVC ownership on adstage (cluster recreation)
 
 `initChownData` is disabled to avoid running a root init container on every pod start. On a fresh adstage cluster, the local-path provisioner creates the Grafana PVC directory owned by root, which Grafana (UID 472) cannot write to. Fix it once before Grafana starts:

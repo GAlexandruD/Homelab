@@ -18,3 +18,27 @@ images:
     newTag: "9"
   - name: busybox
     newTag: "1.36"
+patches:
+  - target:
+      kind: Deployment
+      name: immich-server
+    patch: |
+      - op: add
+        path: /spec/template/spec/nodeSelector
+        value:
+          kubernetes.io/hostname: maxipi
+      - op: add
+        path: /spec/template/spec/securityContext/supplementalGroups
+        value: [993]
+      - op: add
+        path: /spec/template/spec/volumes/-
+        value:
+          name: dri
+          hostPath:
+            path: /dev/dri
+            type: Directory
+      - op: add
+        path: /spec/template/spec/containers/0/volumeMounts/-
+        value:
+          name: dri
+          mountPath: /dev/dri
