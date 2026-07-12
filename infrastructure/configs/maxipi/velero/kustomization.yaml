@@ -5,5 +5,5 @@ resources:
   - rclone-externalsecret.yaml
   - rclone-cronjob-koofr.yaml
   - rclone-cronjob-ff-eu.yaml
-  - rclone-cronjob-ff-na.yaml
   - schedule-local.yaml
+  #- rclone-cronjob-ff-na.yaml
