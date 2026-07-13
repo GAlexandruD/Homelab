@@ -43,7 +43,7 @@ spec:
                   pass = ${FF_EU_OBSCURED}
 
                   EOF
-                  rclone copy minio:velero ff-eu:velero-maxipi --config /tmp/rclone/rclone.conf --tpslimit 2 --checkers 1 --transfers 1 --progress
+                  rclone copy minio:velero ff-eu:velero-maxipi --config /tmp/rclone/rclone.conf --tpslimit 1 --checkers 1 --transfers 1 --progress
               env:
                 - name: HOME
                   value: /tmp
