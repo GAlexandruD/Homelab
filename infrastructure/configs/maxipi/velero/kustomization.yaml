@@ -6,4 +6,4 @@ resources:
   - rclone-cronjob-koofr.yaml
   - rclone-cronjob-ff-eu.yaml
   - schedule-local.yaml
-  #- rclone-cronjob-ff-na.yaml
+  - rclone-cronjob-ff-na.yaml
