@@ -4,6 +4,6 @@ resources:
   - minio-externalsecret.yaml
   - rclone-externalsecret.yaml
   - rclone-cronjob-koofr.yaml
-  - rclone-cronjob-ff-eu.yaml
   - schedule-local.yaml
-  - rclone-cronjob-ff-na.yaml
+  #- rclone-cronjob-ff-na.yaml
+  #- rclone-cronjob-ff-eu.yaml
