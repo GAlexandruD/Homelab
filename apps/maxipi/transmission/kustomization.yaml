@@ -31,30 +31,36 @@ patches:
             hostPort: 51413
             name: udp
             protocol: UDP
-  - patch: |-
+  - target:
+      kind: PersistentVolumeClaim
+      name: transmission-config-pvc
+    patch: |-
       apiVersion: v1
       kind: PersistentVolumeClaim
       metadata:
         name: transmission-config-pvc
-        namespace: transmission
       spec:
         storageClassName: ""
         volumeName: transmission-config-maxipi
-  - patch: |-
+  - target:
+      kind: PersistentVolumeClaim
+      name: transmission-downloads-pvc
+    patch: |-
       apiVersion: v1
       kind: PersistentVolumeClaim
       metadata:
         name: transmission-downloads-pvc
-        namespace: transmission
       spec:
         storageClassName: ""
         volumeName: transmission-downloads-maxipi
-  - patch: |-
+  - target:
+      kind: PersistentVolumeClaim
+      name: transmission-watch-pvc
+    patch: |-
       apiVersion: v1
       kind: PersistentVolumeClaim
       metadata:
         name: transmission-watch-pvc
-        namespace: transmission
       spec:
         storageClassName: ""
         volumeName: transmission-watch-maxipi
