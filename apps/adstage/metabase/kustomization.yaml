@@ -9,6 +9,6 @@ resources:
   - externalsecret.yaml
 images:
   - name: metabase/metabase
-    newTag: "v0.62.4"
+    newTag: "v0.63.1"
   - name: postgres
     newTag: "18"
