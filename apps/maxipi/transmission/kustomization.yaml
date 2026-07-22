@@ -3,6 +3,7 @@ kind: Kustomization
 namespace: transmission
 resources:
   - ../../_base/transmission
+  - pv.yaml
 images:
   - name: lscr.io/linuxserver/transmission
     newTag: "4.1.3"
@@ -30,3 +31,30 @@ patches:
             hostPort: 51413
             name: udp
             protocol: UDP
+  - patch: |-
+      apiVersion: v1
+      kind: PersistentVolumeClaim
+      metadata:
+        name: transmission-config-pvc
+        namespace: transmission
+      spec:
+        storageClassName: ""
+        volumeName: transmission-config-maxipi
+  - patch: |-
+      apiVersion: v1
+      kind: PersistentVolumeClaim
+      metadata:
+        name: transmission-downloads-pvc
+        namespace: transmission
+      spec:
+        storageClassName: ""
+        volumeName: transmission-downloads-maxipi
+  - patch: |-
+      apiVersion: v1
+      kind: PersistentVolumeClaim
+      metadata:
+        name: transmission-watch-pvc
+        namespace: transmission
+      spec:
+        storageClassName: ""
+        volumeName: transmission-watch-maxipi
