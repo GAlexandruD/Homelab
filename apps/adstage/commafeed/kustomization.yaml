@@ -11,6 +11,6 @@ resources:
   - postgresql-secret.yaml
 images:
   - name: athou/commafeed
-    newTag: "7.1.0-postgresql"
+    newTag: "7.2.0-postgresql"
   - name: postgres
     newTag: "18"
