@@ -9,4 +9,4 @@ resources:
   - ingress.yaml
 images:
   - name: sissbruecker/linkding
-    newTag: "1.45.0"
+    newTag: "1.47.0"
