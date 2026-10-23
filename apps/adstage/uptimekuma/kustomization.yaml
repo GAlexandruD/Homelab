@@ -8,4 +8,4 @@ resources:
   - ingress.yaml
 images:
   - name: louislam/uptime-kuma
-    newTag: "2.4.0-rootless"
+    newTag: "2.5.7-rootless"
