@@ -10,4 +10,4 @@ resources:
   - cf-tunnel-homepage-adstage.yaml
 images:
   - name: ghcr.io/gethomepage/homepage
-    newTag: "v1.13.2"
+    newTag: "v2.7.0"
