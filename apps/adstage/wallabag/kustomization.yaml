@@ -13,6 +13,6 @@ resources:
   - wallabag-container-env-secret.yaml
 images:
   - name: wallabag/wallabag
-    newTag: "2.6.14"
+    newTag: "2.6.15"
   - name: postgres
     newTag: "18"
